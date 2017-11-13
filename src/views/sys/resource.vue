@@ -1,0 +1,196 @@
+<template>
+  <div class="top-30">
+    <Row :gutter="30">
+      <iCol span="7">
+        <Card style="overflow-y: scroll">
+          <a href="#" slot="extra" @click.prevent="init()">
+            <Icon type="ios-loop-strong"></Icon>
+          </a>
+          <v-jstree :resources="resources" v-on:change="val => changeResource(val)" v-on:refresh="init()"
+                    v-on:add="parent => addResource(parent)"></v-jstree>
+        </Card>
+      </iCol>
+      <iCol span="17">
+        <Card>
+          <p slot="title">
+            <Icon type="ios-film-outline"></Icon>
+            资源配置{{resource.parentId}}
+          </p>
+
+          <div class="form-content">
+            <Form :model="resource" :label-width="100">
+              <!--<Row>-->
+              <!--<i-col span="22">-->
+
+              <Row>
+                <i-col span="12">
+                  <Form-item label="资源名称">
+                    <Input v-model="resource.name" placeholder="请输入"></Input>
+                  </Form-item>
+                </i-col>
+                <i-col span="12">
+                  <Form-item label="排列序号">
+                    <Input v-model="resource.dispOrder" placeholder="请输入"></Input>
+                  </Form-item>
+                </i-col>
+              </Row>
+              <!--</i-col>-->
+              <!--</Row>-->
+              <Row>
+                <i-col span="12">
+                  <FormItem label="资源类型">
+                    <RadioGroup v-model="resource.resType">
+                      <Radio label="1" :disabled="api">API资源</Radio>
+                      <Radio label="2" :disabled="module">功能模块</Radio>
+                    </RadioGroup>
+                  </FormItem>
+                </i-col>
+                <i-col span="12" v-show="resource.resType === '2' ">
+                  <FormItem label="模块类型">
+                    <Select v-model="resource.modType" placeholder="请选择">
+                      <Option value="1" :disabled="platform">平台</Option>
+                      <Option value="2" :disabled="menu">菜单</Option>
+                      <Option value="3" :disabled="func">功能</Option>
+                    </Select>
+                  </FormItem>
+                </i-col>
+              </Row>
+              <Row v-show="resource.resType !== '2' ">
+                <i-col span="24">
+                  <Form-item label="url链接">
+                    <Input v-model="resource.path" placeholder="请输入"></Input>
+                  </Form-item>
+                </i-col>
+              </Row>
+
+              <Row>
+                <i-col span="12">
+                  <Form-item label="创建者">
+                    <Input v-model="resource.createBy" placeholder="请输入" disabled></Input>
+                  </Form-item>
+                </i-col>
+                <i-col span="12">
+                  <Form-item label="创建日期">
+                    <Date-picker type="date" placeholder="选择日期" v-model="resource.createTime" disabled></Date-picker>
+                  </Form-item>
+                </i-col>
+              </Row>
+              <Row>
+                <i-col span="12">
+                  <Form-item label="修改者">
+                    <Input v-model="resource.updateBy" placeholder="请输入" disabled></Input>
+                  </Form-item>
+                </i-col>
+                <i-col span="12">
+                  <Form-item label="修改日期">
+                    <Date-picker type="date" placeholder="选择日期" v-model="resource.updateTime" disabled></Date-picker>
+                  </Form-item>
+                </i-col>
+              </Row>
+              <Row>
+                <i-col span="24">
+                  <Form-item label="备注说明">
+                    <Input v-model="resource.remarks" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
+                           placeholder="请输入..."></Input>
+                  </Form-item>
+                </i-col>
+              </Row>
+              <Row>
+                <i-col span="24">
+                  <Form-item>
+                    <Button type="primary" v-on:click="save()">保存</Button>
+                    <Button type="ghost" style="margin-left: 8px">重置</Button>
+                  </Form-item>
+                </i-col>
+              </Row>
+            </Form>
+          </div>
+
+        </Card>
+
+      </iCol>
+    </Row>
+
+  </div>
+</template>
+
+<script type="text/ecmascript-6">
+  import jstree from '../../components/jstree.vue';
+  import {resourceList, resourceSave} from '../../util/interface';
+
+  export default {
+    data() {
+      return {
+        resource: {
+          resType: '1'
+        },
+        api: false,
+        module: false,
+        platform: false,
+        menu: false,
+        func: false,
+        resources: []
+      };
+    },
+    mounted() {
+      this.init();
+    },
+    methods: {
+      init: async function () {
+        let res = await resourceList();
+        this.resources = res.body;
+      },
+      save: async function () {
+        console.log(this.resource);
+        let res = await resourceSave(this.resource);
+        if (res.header.code === '0') {
+          this.$Message.success('保存成功！');
+          this.init();
+        } else if (res.header.code === '-2') {
+          this.$Message.info(res.header.message);
+        }
+      },
+      changeResource: function (_resource) {
+        this.cancelDisable();
+        this.resource = _resource;
+      },
+      addResource: function (parent) {
+        this.cancelDisable();
+        // 平台 > 菜单 >= 功能 > 资源
+        if (parent.id === '-1') { // 根节点下只添加平台
+          this.resource = {
+            resType: '2',
+//            parentId: parent.id,
+            modType: '1'
+          };
+          this.api = true;
+          this.func = true;
+          this.menu = true;
+        } else {
+          this.platform = true;  // 其余的节点下不能添加平台
+          if (parent.modType === '3') {
+            this.menu = true; // 功能模块下不能添加菜单
+          }
+          this.resource = {
+            resType: '1',
+            parentId: parent.id
+          };
+        }
+        console.log(parent);
+      },
+      cancelDisable() { // 取消disable状态
+        this.api = false;
+        this.module = false;
+        this.platform = false;
+        this.func = false;
+        this.menu = false;
+      }
+    },
+    components: {
+      'v-jstree': jstree
+    }
+  };
+</script>
+
+<style>
+</style>
