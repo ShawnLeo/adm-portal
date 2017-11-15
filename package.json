@@ -1,9 +1,8 @@
 {
-  "name": "mmt-platform-portal",
-  "version": "1.0.0",
+  "name": "adm-portal",
+  "version": "1.0.22",
   "description": "后台管理门户",
   "author": "Shawn <lishuai_247@163.com>",
-  "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
     "start": "node build/dev-server.js",
@@ -80,5 +79,23 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "main": "src/index.js",
+  "files": [
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShawnLeo/adm-portal.git"
+  },
+  "keywords": [
+    "vue",
+    "admin",
+    "portal"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ShawnLeo/adm-portal/issues"
+  },
+  "homepage": "https://github.com/ShawnLeo/adm-portal#readme"
 }

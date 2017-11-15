@@ -24,7 +24,6 @@
 
 <script type="text/ecmascript-6">
   import menu from '../../util/menu';
-//  import NavBar from '@/components/layout/NavBar';
 
   export default {
     name: 'menus',

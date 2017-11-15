@@ -1,6 +1,5 @@
 import Cookies from 'js-cookie';
 import iView from 'iview';
-import bus from '../util/bus';
 
 const app = {
   state: {
@@ -45,7 +44,7 @@ const app = {
         }
         state.sidebar.opened = !state.sidebar.opened;
       }
-      bus.$emit('layout-change', Cookies.get('sidebarStatus'));
+      // bus.$emit('layout-change', Cookies.get('sidebarStatus'));
     },
     CLOSE_SLIDEBAR: state => {
       Cookies.set('sidebarStatus', 0);

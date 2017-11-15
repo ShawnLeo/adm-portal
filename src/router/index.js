@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import {getStore} from '../util/storage';
 import store from '../store/index';
-import layout from '@/components/layout/layout';
+import layout from '../components/layout/layout.vue';
 
 import {LoadingBar} from 'iview';
 
