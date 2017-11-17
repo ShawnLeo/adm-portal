@@ -26,7 +26,7 @@ function publicPath() {
 
 module.exports = {
   entry: {
-    app: './src/main.js'
+    app: './src/index.js'
   },
   output: {
     path: config.buildProd.assetsRoot,

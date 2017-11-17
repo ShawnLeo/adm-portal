@@ -1,4 +1,4 @@
-import Layout from './components/layout/layout.vue';
+import Layout from './components/layout';
 
 let AdmPortal = {
   Layout: Layout
@@ -15,6 +15,7 @@ if (typeof window !== 'undefined' && window.Vue) {
   install(window.Vue);
 }
 
+// module.exports.default = module.exports = AdmPortal;   // eslint-disable-line no-undef
 export {
   Layout
 };

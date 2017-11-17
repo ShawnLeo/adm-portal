@@ -4,6 +4,16 @@ import {getStore} from '../util/storage';
 import store from '../store/index';
 import layout from '../components/layout/layout.vue';
 
+import index from '../views/index.vue';
+import resource from '../views/sys/resource.vue';
+import user from '../views/sys/user.vue';
+import role from '../views/sys/role.vue';
+import roleResource from '../views/sys/roleResource.vue';
+import log from '../views/sys/log.vue';
+import iframe from '../components/layout/iframe.vue';
+import login from '../views/login.vue';
+import _404 from '../views/404.vue';
+
 import {LoadingBar} from 'iview';
 
 Vue.use(Router);
@@ -22,7 +32,7 @@ const router = new Router({
       meta: {
         title: '首页'
       },
-      component: (resolve) => require(['../views/index.vue'], resolve)
+      component: index
     }, {
       path: '/sys/resource',
       name: '资源管理',
@@ -30,7 +40,7 @@ const router = new Router({
         prevLevelName: '系统管理',
         title: '资源管理'
       },
-      component: (resolve) => require(['../views/sys/resource.vue'], resolve)
+      component: resource
     }, {
       path: '/sys/user',
       name: '用户管理',
@@ -38,7 +48,7 @@ const router = new Router({
         prevLevelName: '系统管理',
         title: '用户管理'
       },
-      component: (resolve) => require(['../views/sys/user.vue'], resolve)
+      component: user
     }, {
       path: '/sys/role',
       name: '角色管理',
@@ -46,7 +56,7 @@ const router = new Router({
         prevLevelName: '系统管理',
         title: '角色管理'
       },
-      component: (resolve) => require(['../views/sys/role.vue'], resolve)
+      component: role
     }, {
       path: '/sys/roleResource',
       name: '角色权限',
@@ -54,7 +64,7 @@ const router = new Router({
         prevLevelName: '系统管理',
         title: '角色权限'
       },
-      component: (resolve) => require(['../views/sys/roleResource.vue'], resolve)
+      component: roleResource
     }, {
       path: '/sys/log',
       name: '操作日志',
@@ -62,18 +72,18 @@ const router = new Router({
         prevLevelName: '系统管理',
         title: '操作日志'
       },
-      component: (resolve) => require(['../views/sys/log.vue'], resolve)
+      component: log
     }, {
       path: '/iframe',
       meta: {
         title: 'iframe'
       },
-      component: (resolve) => require(['../components/layout/iframe.vue'], resolve)
+      component: iframe
     }]
   }, {
     path: '/login',
     name: 'login',
-    component: (resolve) => require(['../views/login.vue'], resolve)
+    component: login
   }, {
     //   path: '/user/group/testselect',
     //   name: 'testselect',
@@ -81,7 +91,7 @@ const router = new Router({
     // }, {
     path: '/404',
     name: '404',
-    component: (resolve) => require(['../views/404.vue'], resolve)
+    component: _404
   }]
 });
 router.beforeEach((to, from, next) => {

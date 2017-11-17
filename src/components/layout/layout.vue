@@ -102,7 +102,7 @@
   import menuTabs from './menuTabs.vue';
   import menus from './menu.vue';
   import {removeStore} from '../../util/storage';
-//  import {updatePwd} from '../../util/interface';
+  import {updatePwd} from '../../util/interface';
   export default {
     name: 'full',
     components: {
@@ -177,15 +177,15 @@
         this.$refs[name].validate((valid) => {
           setTimeout(() => {
             if (valid) {
-//              updatePwd(this.formValidate).then(r => {
-//                let resultCode = r.header.code;
-//                if (resultCode === '0') {
-//                  this.$Message.success('修改成功！');
-//                  this.modalUser = false;
-//                } else {
-//                  this.$Message.error(r.header.message);
-//                }
-//              });
+              updatePwd(this.formValidate).then(r => {
+                let resultCode = r.header.code;
+                if (resultCode === '0') {
+                  this.$Message.success('修改成功！');
+                  this.modalUser = false;
+                } else {
+                  this.$Message.error(r.header.message);
+                }
+              });
             } else {
 //              this.$Notice.warning({
 //                title: '提示',
