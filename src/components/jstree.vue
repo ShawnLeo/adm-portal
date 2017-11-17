@@ -7,10 +7,10 @@
 
 <script type="text/ecmascript-6">
   import $ from 'jquery';
-  import 'jstree/dist/jstree.min';
+  import 'jstree/dist/jstree.min.js';
   import 'font-awesome/css/font-awesome.min.css';
   import 'jstree/dist/themes/default/style.min.css';
-  import {resourceGet, resourceDelete} from '../util/interface';
+  import {resourceGet, resourceDelete} from '../utils/interface';
 
   export default {
     props: ['resources'],

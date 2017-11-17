@@ -27,7 +27,7 @@
               <Icon type="arrow-down-b"></Icon>
             </a>
             <Dropdown-menu slot="list">
-              <Dropdown-item @click.native="modalUser=true">个人信息</Dropdown-item>
+              <Dropdown-item @click.native="modalUser=true">个人信息 {{state.system}}</Dropdown-item>
               <Dropdown-item @click.native="logout">退出登录</Dropdown-item>
             </Dropdown-menu>
           </Dropdown>
@@ -101,8 +101,8 @@
   import container from './container.vue';
   import menuTabs from './menuTabs.vue';
   import menus from './menu.vue';
-  import {removeStore} from '../../util/storage';
-  import {updatePwd} from '../../util/interface';
+  import {removeStore} from '../../utils/storage';
+  import {updatePwd} from '../../utils/interface';
   export default {
     name: 'full',
     components: {

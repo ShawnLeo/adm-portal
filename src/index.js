@@ -1,7 +1,19 @@
 import Layout from './components/layout';
-
+import utils from './utils';
+import {resource, user, role, roleResource, log} from './views/sys';
+import iframe from './components/iframe';
+import {index, login, _404} from './views';
 let AdmPortal = {
-  Layout: Layout
+  Layout: Layout,
+  resource: resource,
+  user: user,
+  role: role,
+  roleResource: roleResource,
+  log: log,
+  iframe: iframe,
+  index: index,
+  login: login,
+  _404: _404
 };
 
 const install = function (Vue, opts = {}) {
@@ -15,7 +27,6 @@ if (typeof window !== 'undefined' && window.Vue) {
   install(window.Vue);
 }
 
-// module.exports.default = module.exports = AdmPortal;   // eslint-disable-line no-undef
 export {
-  Layout
+  Layout, resource, user, role, roleResource, log, iframe, index, login, _404, utils
 };

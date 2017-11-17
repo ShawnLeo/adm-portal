@@ -23,7 +23,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import menu from '../../util/menu';
+  import menu from '../../utils/menu';
 
   export default {
     name: 'menus',

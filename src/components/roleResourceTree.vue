@@ -24,7 +24,7 @@
   import 'jstree/dist/jstree.min';
   import 'font-awesome/css/font-awesome.min.css';
   import 'jstree/dist/themes/default/style.min.css';
-  import {roleResources} from '../util/interface';
+  import {roleResources} from '../utils/interface';
 
   export default {
     props: ['resources', 'roleResources', 'id'],

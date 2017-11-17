@@ -60,8 +60,8 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {logList} from '../../util/interface';
-  import {dateFormat} from '../../util/utils';
+  import {logList} from '../../utils/interface';
+  import {dateFormat} from '../../utils/utils';
   export default {
     data() {
       return {

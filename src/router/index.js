@@ -1,18 +1,12 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import {getStore} from '../util/storage';
+import {getStore} from '../utils/storage';
 import store from '../store/index';
-import layout from '../components/layout/layout.vue';
+import layout from '../components/layout';
 
-import index from '../views/index.vue';
-import resource from '../views/sys/resource.vue';
-import user from '../views/sys/user.vue';
-import role from '../views/sys/role.vue';
-import roleResource from '../views/sys/roleResource.vue';
-import log from '../views/sys/log.vue';
-import iframe from '../components/layout/iframe.vue';
-import login from '../views/login.vue';
-import _404 from '../views/404.vue';
+import {resource, user, role, roleResource, log} from '../views/sys';
+import iframe from '../components/iframe';
+import {index, login, _404} from '../views';
 
 import {LoadingBar} from 'iview';
 

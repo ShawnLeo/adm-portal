@@ -201,10 +201,10 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {userList, roleSearch, passResest, lockUser, updateUser, saveUser} from '../../util/interface';
-  import {} from '../../util/utils';
+  import {userList, roleSearch, passResest, lockUser, updateUser, saveUser} from '../../utils/interface';
+  import {} from '../../utils/utils';
   import dateUtil from 'iview/src/utils/date';
-  import {setStore, getStore} from '../../util/storage';
+  import {setStore, getStore} from '../../utils/storage';
   export default {
     data() {
       const validatePassword = (rule, value, callback) => {

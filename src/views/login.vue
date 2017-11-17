@@ -47,8 +47,8 @@
 </template>
 <script>
 //  import {canvas} from '&/canvas/star';
-  import {login} from '../util/interface';
-  import {setStore} from '../util/storage';
+  import {login} from '../utils/interface';
+  import {setStore} from '../utils/storage';
   export default {
     name: 'login',
     data() {

@@ -1,5 +1,5 @@
 import {baseUrl, nodeUrl} from './env';
-import {getStore, removeStore} from '../util/storage';
+import {getStore, removeStore} from './/storage';
 import {joint} from './utils';
 import axios from 'axios';
 import {Message} from 'iview';

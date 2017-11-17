@@ -41,7 +41,7 @@
 
 <script type="text/ecmascript-6">
   import roleResourceTree from '../../components/roleResourceTree.vue';
-  import {resourceList} from '../../util/interface';
+  import {resourceList} from '../../utils/interface';
   export default {
     data() {
       return {

@@ -79,8 +79,8 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {roleSearch, roleAdd, roleEdit, roleDelete} from '../../util/interface';
-  import {removeStore} from '../../util/storage';
+  import {roleSearch, roleAdd, roleEdit, roleDelete} from '../../utils/interface';
+  import {removeStore} from '../../utils/storage';
   export default {
     data() {
       return {

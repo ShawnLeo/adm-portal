@@ -24,6 +24,7 @@ const app = {
     }],
     menuTabarWidth: null,
     menuFirsClick: true
+    // system: 'mgt'
   },
   mutations: {
     /**

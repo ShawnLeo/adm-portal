@@ -116,7 +116,7 @@
 
 <script type="text/ecmascript-6">
   import jstree from '../../components/jstree.vue';
-  import {resourceList, resourceSave} from '../../util/interface';
+  import {resourceList, resourceSave} from '../../utils/interface';
 
   export default {
     data() {
