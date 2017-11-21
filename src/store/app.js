@@ -23,8 +23,8 @@ const app = {
       path: '/index'
     }],
     menuTabarWidth: null,
-    menuFirsClick: true
-    // system: 'mgt'
+    menuFirsClick: true,
+    system: '10' // 系统编号 10 为基础平台
   },
   mutations: {
     /**
