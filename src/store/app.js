@@ -24,7 +24,7 @@ const app = {
     }],
     menuTabarWidth: null,
     menuFirsClick: true,
-    system: '10' // 系统编号 10 为基础平台
+    system: '基础平台'
   },
   mutations: {
     /**

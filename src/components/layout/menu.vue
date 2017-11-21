@@ -10,7 +10,7 @@
           </template>
           <Menu-item :name="sub.url" v-for="sub in item.children" :key="sub._id">
             <!--<Icon :type="sub.icon?sub.icon:'checkmark'"></Icon>-->
-            <span class="menu-ellipsis">{{sub.name}}</span>
+            <span  class="menu-ellipsis">{{sub.name}}</span>
           </Menu-item>
         </Submenu>
         <Menu-item :name="item.url" v-else>
@@ -23,14 +23,14 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import menu from '../../utils/menu';
+  import {getMenuList, getMenusFromCookies} from '../../utils/menu';
 
   export default {
     name: 'menus',
     data() {
       return {
         theme: 'dark', // 主题
-        menu: menu // 导航菜单
+        menu: [] // 导航菜单
       };
     },
     methods: {
@@ -45,7 +45,16 @@
             });
           });
         }
-      }
+    },
+    beforeCreate() {
+      getMenuList(this.$store.state.app.system);
+    },
+    mounted() {
+      let self = this;
+      getMenusFromCookies(this.$store.state.app.system, function (menu) {
+        self.menu = menu;
+      });
+    }
   };
 </script>
 
