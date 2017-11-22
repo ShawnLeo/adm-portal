@@ -10,11 +10,13 @@ let iteratorInitMenuJsTree = (parent, children) => {
     let menu = {
       name: children[i].li_attr.name,
       url: children[i].li_attr.path,
-      icon: 'person-stalker',
-      _id: children[i].li_attr.id,
-      children: []
+      icon: JSON.parse(children[i].li_attr.style) ? JSON.parse(children[i].li_attr.style).className : 'person-stalker',
+      _id: children[i].li_attr.id
     };
-    iteratorInitMenuJsTree(menu.children, children[i].children);
+    if (children[i].children.length) {
+      menu.children = [];
+      iteratorInitMenuJsTree(menu.children, children[i].children);
+    }
     parent.push(menu);
   }
 };
