@@ -121,11 +121,12 @@
       }
     },
     mounted() {
+//      this.dataAdapter(this.resources);
+//      debugger;
       this.init();
     },
     watch: {
       resources: function (val, oldval) {
-        console.log(val);
         let $jstree = $('#resource-tree').jstree(true);
         $jstree.settings.core.data = val;
         $jstree.refresh();

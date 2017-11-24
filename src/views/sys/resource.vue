@@ -2,7 +2,7 @@
   <div class="top-30">
     <Row :gutter="30">
       <iCol span="7">
-        <Card style="overflow-y: scroll">
+        <Card style="overflow-y: scroll;min-height: 450px;">
           <a href="#" slot="extra" @click.prevent="init()">
             <Icon type="ios-loop-strong"></Icon>
           </a>
@@ -55,11 +55,30 @@
                   </FormItem>
                 </i-col>
               </Row>
-              <Row v-show="resource.resType !== '2' ">
+              <Row v-if="resource.resType !== '2' ">
                 <i-col span="24">
                   <Form-item label="url链接">
                     <Input v-model="resource.path" placeholder="请输入"></Input>
                   </Form-item>
+                </i-col>
+              </Row>
+
+              <Row v-if="resource.modType === '2' ">
+                <i-col span="24">
+                  <Form-item label="菜单路由">
+                    <Input v-model="resource.path" placeholder="请输入"></Input>
+                  </Form-item>
+                </i-col>
+              </Row>
+              <Row v-if="resource.modType === '2' ">
+                <i-col span="12">
+                  <Form-item label="菜单样式">
+                    <Input v-model="resource.style" placeholder="请输入"></Input>
+                  </Form-item>
+                </i-col>
+                <i-col span="12">
+                  <FormItem label='*格式 例如：{"className":"settings"}' :label-width= 250></FormItem>
+
                 </i-col>
               </Row>
 
@@ -138,6 +157,7 @@
     methods: {
       init: async function () {
         let res = await resourceList();
+        this.dataAdapter(res.body);
         this.resources = res.body;
       },
       save: async function () {
@@ -184,6 +204,41 @@
         this.platform = false;
         this.func = false;
         this.menu = false;
+      },
+      dataAdapter: function (data) {
+        if (!data) {
+          return;
+        }
+        for (let i = 0; i < data.children.length; i++) {
+          this.iterator(data.children[i]);
+        }
+      },
+      iterator: function (data) {
+        if (data.li_attr) {
+          if (data.li_attr.resType === '1') { // 资源文件样式
+            data.icon = 'fa fa-file icon-state-default';
+          } else if (data.li_attr.resType === '2') {
+            if (data.li_attr.modType === '1') {
+              data.icon = 'fa fa-folder icon-state-info';
+            } else if (data.li_attr.modType === '2') {
+              data.icon = 'fa fa-folder icon-state-success';
+            } else if (data.li_attr.modType === '3') {
+              data.icon = 'fa fa-folder icon-state-danger';
+            }
+          }
+        }
+        if (!data.children) {
+          return;
+        }
+        for (let i = 0; i < data.children.length; i++) {
+          this.iterator(data.children[i]);
+        }
+      }
+    },
+    watch: {
+      'resource.resType': function (val, oldval) {
+        this.resource.modType = '';
+        this.resource.path = '';
       }
     },
     components: {
