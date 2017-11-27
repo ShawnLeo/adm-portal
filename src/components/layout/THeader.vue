@@ -11,12 +11,23 @@
       <Icon type="android-contract" v-if="screen"></Icon>
     </div>
     <!--是否全屏  /-->
+    <!-- 面包屑 -->
+    <div style="float: left;line-height: 50px;">
+      <Breadcrumb>
+        <Breadcrumb-item href="/">
+          <Icon type="ios-home-outline"></Icon>
+          首页
+        </Breadcrumb-item>
+        <Breadcrumb-item>
+          {{state.router.currentPageName}}
+        </Breadcrumb-item>
+      </Breadcrumb>
+    </div>
     <!-- 消息类按钮 -->
     <div class="msg-group-box">
       <slot name='msg-icon'></slot>
       <slot name='right'></slot>
     </div>
-
     <!-- 消息类按钮 /-->
   </div>
 </template>

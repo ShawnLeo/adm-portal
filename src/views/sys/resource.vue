@@ -1,6 +1,6 @@
 <template>
   <div class="top-30">
-    <Row :gutter="30">
+    <Row :gutter="10">
       <iCol span="7">
         <Card style="overflow-y: scroll;min-height: 450px;">
           <a href="#" slot="extra" @click.prevent="init()">

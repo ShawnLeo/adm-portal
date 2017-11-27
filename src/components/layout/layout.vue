@@ -22,43 +22,35 @@
           <!--<Avatar class="user-head" icon="person"></Avatar>-->
           <Dropdown transfer class="user-drop">
             <a href="javascript:void(0)">
-
-              Shawn
+              {{state.system}}
               <Icon type="arrow-down-b"></Icon>
             </a>
             <Dropdown-menu slot="list">
-              <Dropdown-item @click.native="modalUser=true">个人信息 {{state.system}}</Dropdown-item>
-              <Dropdown-item @click.native="logout">退出登录</Dropdown-item>
+              <Dropdown-item>数据平台</Dropdown-item>
+              <Dropdown-item>报表平台</Dropdown-item>
             </Dropdown-menu>
           </Dropdown>
         </div>
-        <!--用户信息 -->
-        <!--<div class="messageBox" slot='msg-icon'>-->
-          <!--<div class="theme-switch">-->
-            <!--<i-switch size="large" @on-change="themeChange" v-model="themeBool">-->
-              <!--<span slot="open">Dark</span>-->
-              <!--<span slot="close">Light</span>-->
-            <!--</i-switch>-->
-          <!--</div>-->
-        <!--</div>-->
+        <div class="userBox" slot='right'>
+          <!--<Avatar class="user-head" icon="person"></Avatar>-->
+          <Dropdown transfer class="user-drop">
+            <a href="javascript:void(0)">
+              Admin
+              <Icon type="arrow-down-b"></Icon>
+            </a>
+            <Dropdown-menu slot="list">
+              <Dropdown-item @click.native="modalUser=true">修改密码</Dropdown-item>
+              <Dropdown-item @click.native="logout">退出登录</Dropdown-item>
+              <Dropdown-item @click.native="clearStorage">清除数据缓存</Dropdown-item>
+            </Dropdown-menu>
+          </Dropdown>
+        </div>
       </t-header>
       <!-- 头部 /-->
       <!-- 内容部分 -->
       <div class="main-container">
         <menu-tabs/>
         <container>
-          <!-- 面包屑 -->
-          <!--<Breadcrumb>-->
-            <!--<Breadcrumb-item href="/">-->
-              <!--<Icon type="ios-home-outline"></Icon>-->
-              <!--Home-->
-            <!--</Breadcrumb-item>-->
-            <!--<Breadcrumb-item>-->
-              <!--<Icon type="pound"></Icon>-->
-              <!--{{state.router.currentPageName}}-->
-            <!--</Breadcrumb-item>-->
-          <!--</Breadcrumb>-->
-
           <transition name="fade" mode="out-in">
             <router-view></router-view>
           </transition>
@@ -102,6 +94,7 @@
   import menuTabs from './menuTabs.vue';
   import menus from './menu.vue';
   import Cookies from 'js-cookie';
+  import {clearStore} from '../../utils/storage';
   import {updatePwd} from '../../utils/interface';
   export default {
     name: 'full',
@@ -219,6 +212,11 @@
         Cookies.remove('sessionId');
         this.$router.push('/login');
         this.$Message.success('退出成功');
+      },
+      clearStorage() {
+        clearStore();
+        window.location.reload();
+        this.$Message.success('清除成功');
       },
       themeChange(state) {
         if (state) {

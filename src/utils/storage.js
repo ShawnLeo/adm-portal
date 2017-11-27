@@ -26,3 +26,9 @@ export const removeStore = name => {
   window.localStorage.removeItem(name);
 };
 
+/**
+ * 清空localStorage
+ */
+export const clearStore = () => {
+  window.localStorage.clear();
+};
