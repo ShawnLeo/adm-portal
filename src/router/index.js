@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import {getStore} from '../utils/storage';
+import Cookies from 'js-cookie';
 import store from '../store/index';
 import layout from '../components/layout';
 
@@ -90,7 +90,7 @@ const router = new Router({
 });
 router.beforeEach((to, from, next) => {
   LoadingBar.start();
-  let sessionId = getStore('sessionId');
+  let sessionId = Cookies.get('sessionId');
   if (sessionId) { // 如果是登陆状态
     store.dispatch('addTab', to);
     to.path === '/login' ? next({path: '/index'}) : next();

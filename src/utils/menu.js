@@ -1,6 +1,6 @@
 import { menuList } from './interface';
-import Cookies from 'js-cookie';
-
+// import Cookies from 'js-cookie';
+import {getStore, setStore} from '../utils/storage';
 let menus = [];
 let iteratorInitMenuJsTree = (parent, children) => {
   if (!children) {
@@ -22,21 +22,21 @@ let iteratorInitMenuJsTree = (parent, children) => {
 };
 
 let getMenuList = async (system) => {
-  if (!Cookies.getJSON('menus-' + system)) {
+  if (!getStore('menus-' + system)) {
     await menuList({system: system}).then(r => {
       iteratorInitMenuJsTree(menus, r.body.children);
-      Cookies.set('menus-' + system, JSON.stringify(menus));
+      setStore('menus-' + system, JSON.stringify(menus));
     });
   }
 };
 
 let getMenusFromCookies = (system, menus) => {
-  if (!Cookies.getJSON('menus-' + system)) {
+  if (!getStore('menus-' + system)) {
     setTimeout(() => {
         getMenusFromCookies(system, menus);
     }, 100);
   } else {
-    menus(Cookies.getJSON('menus-' + system));
+    menus(JSON.parse(getStore('menus-' + system)));
   }
 };
 

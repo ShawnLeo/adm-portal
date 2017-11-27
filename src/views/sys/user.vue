@@ -487,7 +487,7 @@
                       this.modalManager = true;
                     }
                   }
-                }, '账号管理'),
+                }, '账号'),
                 h('Button', {
                   props: {
                     type: 'info',
@@ -511,7 +511,7 @@
                       this.modalEdit = true;
                     }
                   }
-                }, '用户修改'),
+                }, '修改'),
                 h('Button', {
                   props: {
                     type: 'warning',
@@ -535,7 +535,7 @@
                       });
                     }
                   }
-                }, this.data6[params.index].status === '-1' ? '解锁用户' : '锁定用户')
+                }, this.data6[params.index].status === '-1' ? '解锁' : '锁定')
               ]);
             }
           }

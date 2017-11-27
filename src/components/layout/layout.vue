@@ -101,7 +101,7 @@
   import container from './container.vue';
   import menuTabs from './menuTabs.vue';
   import menus from './menu.vue';
-  import {removeStore} from '../../utils/storage';
+  import Cookies from 'js-cookie';
   import {updatePwd} from '../../utils/interface';
   export default {
     name: 'full',
@@ -216,7 +216,7 @@
        *退出
        */
       logout() {
-        removeStore('sessionId');
+        Cookies.remove('sessionId');
         this.$router.push('/login');
         this.$Message.success('退出成功');
       },

@@ -4,7 +4,7 @@
     <div id="tabs-bar" ref="elemTabar" class="tabs-bar">
       <ul ref="elemScroll" class="utab">
         <router-link tag="li" v-for="(item, index) in menuTabs" :key="index" ref="tabsPageOpened"
-                     :to="{ path: item.path}" class="scr-menu-item">
+                     :to="{ path: item.path, query:item.query}" class="scr-menu-item">
           {{ item.title}}
           <span v-if="item.path !=='/index'" class="tab-close" v-on:click.stop="removeOpenTab(index,$event)"><Icon
             type="close-circled"></Icon></span>
@@ -158,6 +158,9 @@
           return n.path === to.path;
         });
         let tabs = this.$refs.tabsPageOpened;
+        if (!tabs[index]) {
+          return;
+        }
         this.moveToView(tabs[index].$el);
       }
     }

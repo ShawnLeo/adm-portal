@@ -46,9 +46,8 @@
   </div>
 </template>
 <script>
-//  import {canvas} from '&/canvas/star';
   import {login} from '../utils/interface';
-  import {setStore} from '../utils/storage';
+  import Cookies from 'js-cookie';
   export default {
     name: 'login',
     data() {
@@ -117,7 +116,7 @@
             if (response && response.header) {
               if (response.header.code === '0') {
                 this.$Message.success('登录成功!');
-                setStore('sessionId', response.body);
+                Cookies.set('sessionId', response.body);
                 this.$router.push('/index');
               }
             }
