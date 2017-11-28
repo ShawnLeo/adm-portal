@@ -1,5 +1,6 @@
 import {baseUrl, nodeUrl} from './env';
-import {getStore, removeStore} from './/storage';
+// import {getStore, removeStore} from './storage';
+import Cookies from 'js-cookie';
 import {joint} from './utils';
 import axios from 'axios';
 import {Message} from 'iview';
@@ -16,7 +17,7 @@ let commonDataStr = () => {
     'xClient': '',
     'xDevice': '',
     'xService': '',
-    'xToken': getStore('sessionId') || '',
+    'xToken': Cookies.get('sessionId') || '',
     'xTimestamp': new Date().getTime(),
     'xRepeat': 0,
     'xSignature': ''
@@ -29,7 +30,7 @@ const codeEvents = (respose, codeEvents) => {
     return true;
   }
   if (respose.code === '-101') { // 请登录
-    removeStore('sessionId');
+    Cookies.remove('sessionId');
     router.push('/login');
     return false;
   }

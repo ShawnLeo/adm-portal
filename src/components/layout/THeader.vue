@@ -14,12 +14,12 @@
     <!-- 面包屑 -->
     <div style="float: left;line-height: 50px;">
       <Breadcrumb>
-        <Breadcrumb-item href="/">
-          <Icon type="ios-home-outline"></Icon>
-          首页
+        <Breadcrumb-item v-if="$route.meta.prevLevelName">
+          <!--<Icon type="ios-home-outline"></Icon>-->
+          {{$route.meta.prevLevelName}}
         </Breadcrumb-item>
         <Breadcrumb-item>
-          {{state.router.currentPageName}}
+          {{$route.meta.title}}
         </Breadcrumb-item>
       </Breadcrumb>
     </div>
