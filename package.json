@@ -1,6 +1,6 @@
 {
   "name": "adm-portal",
-  "version": "1.0.340",
+  "version": "1.0.401",
   "description": "后台管理门户",
   "author": "Shawn <lishuai_247@163.com>",
   "scripts": {
@@ -82,7 +82,8 @@
   ],
   "main": "dist/index.js",
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "repository": {
     "type": "git",

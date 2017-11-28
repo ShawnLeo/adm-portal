@@ -8,7 +8,7 @@ Vue.use(VueI18n);
 import iView from 'iview';
 Vue.use(iView);
 import Cookies from 'js-cookie';
-import store from './store/index';
+import store from './store/store';
 import './assets/styles/layout.less'; // 引入布局样式
 import './assets/styles/cover.less'; // 覆盖样式
 import './assets/styles/common.less';

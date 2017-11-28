@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Cookies from 'js-cookie';
-import store from '../store/index';
+import store from '../store/store';
 import layout from '../components/layout';
 
 import {resource, user, role, roleResource, log} from '../views/sys';
