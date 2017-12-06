@@ -10,7 +10,7 @@
   import 'jstree/dist/jstree.min.js';
   import 'font-awesome/css/font-awesome.min.css';
   import 'jstree/dist/themes/default/style.min.css';
-  import {resourceGet, resourceDelete} from '../utils/interface';
+  import {resourceGet, resourceDelete, resourceChange} from '../utils/interface';
 
   export default {
     props: ['resources'],
@@ -70,8 +70,8 @@
               remove: {
                 label: '删除',
                 action: function (data) {
-                  var instance = $.jstree.reference(data.reference);
-                  var node = instance.get_node(data.reference);
+                  let instance = $.jstree.reference(data.reference);
+                  let node = instance.get_node(data.reference);
                   // 有子节点，不能删除
                   if (node.children && node.children.length > 0) {
                     self.$Modal.error({
@@ -93,14 +93,20 @@
                     });
                   }
                 }
+              },
+              export: {
+                label: '导出',
+                action: function (data) {
+                  console.log('aaa');
+                }
               }
             }
           }
         });
 
-        $tree.on('move_node.jstree', function (e, data) { // 移动事件
-          console.log(data);
-        });
+//        $tree.on('move_node.jstree', function (e, data) { // 移动事件
+//          self.moveNode(data.node.id, data.node.parent);
+//        });
         $tree.bind('activate_node.jstree', function (obj, e) {  // 点击事件
           self.getById(e.node.id);
         });
@@ -108,6 +114,13 @@
       getById: async function (id) {
         let response = await resourceGet({id: id});
         this.$emit('change', response.body); // 通知父组件，刷新右侧内容
+      },
+      moveNode: async function (id, parent) {
+        let response = await resourceChange({
+          id: id,
+          nId: parent
+        });
+        console.log(response);
       },
       deleteById: async function (id) {
         console.log(id);

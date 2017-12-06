@@ -14,14 +14,12 @@
         <Card>
           <p slot="title">
             <Icon type="ios-film-outline"></Icon>
-            资源配置{{resource.parentId}}
+            资源配置    <span v-if="resource.id">资源Id:{{resource.id}}</span>
           </p>
-
           <div class="form-content">
             <Form :model="resource" :label-width="100">
               <!--<Row>-->
               <!--<i-col span="22">-->
-
               <Row>
                 <i-col span="12">
                   <Form-item label="资源名称">
@@ -62,15 +60,14 @@
                   </Form-item>
                 </i-col>
               </Row>
-
-              <Row v-if="resource.modType === '2' ">
+              <Row v-if="resource.modType === '2' && resource.resType === '2' ">
                 <i-col span="24">
                   <Form-item label="菜单路由">
                     <Input v-model="resource.path" placeholder="请输入"></Input>
                   </Form-item>
                 </i-col>
               </Row>
-              <Row v-if="resource.modType === '2' ">
+              <Row v-if="resource.modType === '2' && resource.resType === '2' ">
                 <i-col span="12">
                   <Form-item label="菜单样式">
                     <Input v-model="resource.style" placeholder="请输入"></Input>
@@ -78,7 +75,6 @@
                 </i-col>
                 <i-col span="12">
                   <FormItem label='*格式 例如：{"className":"settings"}' :label-width= 250></FormItem>
-
                 </i-col>
               </Row>
 
@@ -161,7 +157,13 @@
         this.resources = res.body;
       },
       save: async function () {
-        console.log(this.resource);
+        if (!this.resource.parentId) {
+          this.$Message.warning('请在左侧树节点 右键->新增！');
+          return;
+        }
+        if (this.resource.resType === '1') {
+          this.resource.modType = '';
+        }
         let res = await resourceSave(this.resource);
         if (res.header.code === '0') {
           this.$Message.success('保存成功！');
@@ -171,7 +173,21 @@
         }
       },
       changeResource: function (_resource) {
+        if (!_resource) {
+          this.$Message.warning('操作失败！');
+          return;
+        }
         this.cancelDisable();
+        if (_resource.parentId === '0') { // 根节点下只添加平台
+          this.api = true;
+          this.func = true;
+          this.menu = true;
+        } else {
+          this.platform = true;  // 其余的节点下不能添加平台
+          if (_resource.modType === '3') {
+            this.menu = true; // 功能模块下不能添加菜单
+          }
+        }
         this.resource = _resource;
       },
       addResource: function (parent) {
@@ -180,7 +196,6 @@
         if (parent.id === '-1') { // 根节点下只添加平台
           this.resource = {
             resType: '2',
-//            parentId: parent.id,
             modType: '1'
           };
           this.api = true;
@@ -193,10 +208,10 @@
           }
           this.resource = {
             resType: '1',
+            modType: '',
             parentId: parent.id
           };
         }
-        console.log(parent);
       },
       cancelDisable() { // 取消disable状态
         this.api = false;
@@ -237,8 +252,9 @@
     },
     watch: {
       'resource.resType': function (val, oldval) {
-        this.resource.modType = '';
-        this.resource.path = '';
+        if (val === '1') {
+          this.resource.modType = '';
+        }
       }
     },
     components: {

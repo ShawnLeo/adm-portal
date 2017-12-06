@@ -38,6 +38,10 @@ export const resourceList = () => fetch(PLATFORM_SYS + '/resource/list', {}, 'PO
 
 export const resourceGet = (data) => fetch(PLATFORM_SYS + '/resource/get/' + data.id, {}, 'GET');
 
+export const resourceChange = (data) => fetch(PLATFORM_SYS + '/resource/change/' + data.id, {
+  reqParams: data
+}, 'POST');
+
 export const resourceSave = (data) => fetch(PLATFORM_SYS + '/resource/save', {
   reqBody: data
 }, 'POST');
