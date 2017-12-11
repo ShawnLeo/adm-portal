@@ -81,7 +81,7 @@ const app = {
       }
     },
     INIT_TAB: (state) => {
-      state.menuTabs = getStore('menuTabs') ? JSON.parse(getStore('menuTabs')) : state.menuTabs;
+      state.menuTabs = getStore('menuTabs-' + state.system) ? JSON.parse(getStore('menuTabs-' + state.system)) : state.menuTabs;
     },
     ADD_TAB: (state, payload) => {
       if (!payload.meta.title) {
@@ -93,11 +93,11 @@ const app = {
         query: payload.query
       };
       state.menuTabs.push(router);
-      setStore('menuTabs', JSON.stringify(state.menuTabs));
+      setStore('menuTabs-' + state.system, JSON.stringify(state.menuTabs));
     },
     REMOVE_TAB: (state, index) => {
       state.menuTabs.splice(index, 1);
-      setStore('menuTabs', JSON.stringify(state.menuTabs));
+      setStore('menuTabs-' + state.system, JSON.stringify(state.menuTabs));
     },
     SET_MENU_TAB_WIDTH: (state, w) => {
       state.menuTabarWidth = w;
@@ -106,13 +106,13 @@ const app = {
       state.menuTabs = state.menuTabs.filter((item) => {
         return item.path === '/index';
       });
-      setStore('menuTabs', JSON.stringify(state.menuTabs));
+      setStore('menuTabs-' + state.system, JSON.stringify(state.menuTabs));
     },
     CLOSE_OTHER_TAB: (state, curpath) => {
       state.menuTabs = state.menuTabs.filter((item) => {
         return (item.path === '/index') || (item.path === curpath);
       });
-      setStore('menuTabs', JSON.stringify(state.menuTabs));
+      setStore('menuTabs-' + state.system, JSON.stringify(state.menuTabs));
     }
   },
   actions: {

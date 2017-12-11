@@ -10,7 +10,7 @@
   import 'jstree/dist/jstree.min.js';
   import 'font-awesome/css/font-awesome.min.css';
   import 'jstree/dist/themes/default/style.min.css';
-  import {resourceGet, resourceDelete, resourceChange} from '../utils/interface';
+  import {resourceGet, resourceDelete, resourceChange, resourceExport} from '../utils/interface';
 
   export default {
     props: ['resources'],
@@ -97,7 +97,10 @@
               export: {
                 label: '导出',
                 action: function (data) {
-                  console.log('aaa');
+                  var instance = $.jstree.reference(data.reference);
+                  var node = instance.get_node(data.reference);
+                  console.log(node);
+                  resourceExport({id: node.id});
                 }
               }
             }

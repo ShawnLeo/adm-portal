@@ -352,7 +352,7 @@
           },
           {
             title: '登陆次数',
-            width: 100,
+            width: 80,
             align: 'center',
             key: 'loginCount',
             render: (h, params) => {
@@ -388,7 +388,7 @@
           {
             title: '操作',
             key: 'action',
-            width: 90,
+            width: 120,
             align: 'center',
             fixed: 'right',
             render: (h, params) => {
@@ -465,7 +465,7 @@
           {
             title: '操作',
             key: 'action',
-            width: 300,
+            width: 320,
             align: 'center',
             fixed: 'right',
             render: (h, params) => {

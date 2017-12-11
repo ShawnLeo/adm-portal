@@ -1,10 +1,17 @@
 <template>
-  <div class="top-30">
+  <div id="resource" class="top-30">
     <Row :gutter="10">
       <iCol span="7">
         <Card style="overflow-y: scroll;min-height: 450px;">
-          <a href="#" slot="extra" @click.prevent="init()">
-            <Icon type="ios-loop-strong"></Icon>
+          <p slot="title">
+            <Icon type="ios-list-outline"></Icon>
+             资源树
+          </p>
+          <a href="#" slot="extra">
+            <Upload class="btn-upload" action="http://localhost:7031/platform-sys/resource/import" :show-upload-list=false :on-success="handleSuccess">
+              <Button type="info" shape="circle" icon="ios-cloud-upload-outline">导入</Button>
+            </Upload>
+            <Button class="btn-refresh" type="ghost" shape="circle" v-on:click="init()" icon="refresh">刷新</Button>
           </a>
           <v-jstree :resources="resources" v-on:change="val => changeResource(val)" v-on:refresh="init()"
                     v-on:add="parent => addResource(parent)"></v-jstree>
@@ -18,8 +25,6 @@
           </p>
           <div class="form-content">
             <Form :model="resource" :label-width="100">
-              <!--<Row>-->
-              <!--<i-col span="22">-->
               <Row>
                 <i-col span="12">
                   <Form-item label="资源名称">
@@ -32,8 +37,6 @@
                   </Form-item>
                 </i-col>
               </Row>
-              <!--</i-col>-->
-              <!--</Row>-->
               <Row>
                 <i-col span="12">
                   <FormItem label="资源类型">
@@ -248,6 +251,9 @@
         for (let i = 0; i < data.children.length; i++) {
           this.iterator(data.children[i]);
         }
+      },
+      handleSuccess: function () {
+        alert('aaa');
       }
     },
     watch: {
@@ -264,4 +270,15 @@
 </script>
 
 <style>
+  #resource .btn-upload{
+    margin-right: 80px;
+
+  }
+  #resource .btn-refresh{
+    margin-left: 80px;
+    margin-top: -50px;
+  }
+  /*#resource .ivu-upload-list{*/
+    /*display: none;*/
+  /*}*/
 </style>

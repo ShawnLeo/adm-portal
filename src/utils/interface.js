@@ -4,7 +4,7 @@
 
 const PLATFORM_SYS = 'platform-sys';
 
-import {fetch} from './fetch';
+import {fetch, download} from './fetch';
 
 // 登陆
 export const login = (data, codeEvents) => fetch('/login', {
@@ -41,6 +41,8 @@ export const resourceGet = (data) => fetch(PLATFORM_SYS + '/resource/get/' + dat
 export const resourceChange = (data) => fetch(PLATFORM_SYS + '/resource/change/' + data.id, {
   reqParams: data
 }, 'POST');
+
+export const resourceExport = (data) => download(PLATFORM_SYS + '/resource/export/' + data.id, {}, 'GET');
 
 export const resourceSave = (data) => fetch(PLATFORM_SYS + '/resource/save', {
   reqBody: data

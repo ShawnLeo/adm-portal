@@ -1,5 +1,5 @@
-import {baseUrl, nodeUrl} from './env';
-// import {getStore, removeStore} from './storage';
+import {baseUrl} from './env';
+
 import Cookies from 'js-cookie';
 import {joint} from './utils';
 import axios from 'axios';
@@ -116,41 +116,7 @@ export const fetch = async (url = '', options = {}, type = 'GET') => {
  * @param type
  * @returns {Promise.<*>}
  */
-export const fetchFromNodeJs = async (url = '', options = {}, type = 'GET') => {
-  url = url + '?' + commonDataStr(); // 公共数据 请求参数
-  let res = {};
-  // if (options.indicator !== false) {
-  // 进度条
-  // Indicator.open({
-  //   text: '加载中...',
-  //   spinnerType: 'fading-circle'
-  // });
-  // }
-
-  await axios.request({
-    url: url,
-    baseURL: nodeUrl,
-    method: type.toLowerCase(),
-    headers: {'Content-Type': 'application/json'},
-    params: options.reqParams || {}, // 业务params 请求参数
-    data: options.reqBody || {}
-  }).then((response) => {
-    console.log(response.data);
-    res = response.data;
-  }).catch(function (error) {
-    if (error.response) {
-      // 存在请求，但是服务器的返回一个状态码
-      // 他们都在2xx之外
-      console.log(error.response.data);
-      console.log(error.response.status);
-      console.log(error.response.headers);
-    } else {
-      // 一些错误是在设置请求时触发的
-      console.log('Error', error.message);
-    }
-    // Toast('网络异常');
-    alert('异常');
-    console.log(error.config);
-  });
-  return res;
+export const download = async (url = '', options = {}, type = 'GET') => {
+  url = baseUrl + '/' + url + '?' + commonDataStr() + '&' + joint(options.reqParams);// 公共数据 请求参数
+  window.open(url);
 };
