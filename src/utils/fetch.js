@@ -99,7 +99,7 @@ export const fetch = async (url = '', options = {}, type = 'GET') => {
       console.log('Error', error.message);
     }
     // Toast('网络异常');
-    alert('异常');
+    Message.error('服务异常');
     console.log(error.config);
   });
   // if (options.indicator !== false) {

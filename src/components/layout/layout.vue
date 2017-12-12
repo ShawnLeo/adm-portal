@@ -18,30 +18,30 @@
       <!-- 头部 -->
       <t-header>
         <!-- 用户信息 -->
+        <!--<div class="userBox" slot='right'>-->
+          <!--&lt;!&ndash;<Avatar class="user-head" icon="person"></Avatar>&ndash;&gt;-->
+          <!--<Dropdown transfer class="user-drop">-->
+            <!--<a href="javascript:void(0)">-->
+              <!--{{state.system}}-->
+              <!--<Icon type="arrow-down-b"></Icon>-->
+            <!--</a>-->
+            <!--<Dropdown-menu slot="list">-->
+              <!--<Dropdown-item>数据平台</Dropdown-item>-->
+              <!--<Dropdown-item>报表平台</Dropdown-item>-->
+            <!--</Dropdown-menu>-->
+          <!--</Dropdown>-->
+        <!--</div>-->
         <div class="userBox" slot='right'>
-          <!--<Avatar class="user-head" icon="person"></Avatar>-->
+          <Avatar class="user-head" icon="person"></Avatar>
           <Dropdown transfer class="user-drop">
             <a href="javascript:void(0)">
-              {{state.system}}
-              <Icon type="arrow-down-b"></Icon>
-            </a>
-            <Dropdown-menu slot="list">
-              <Dropdown-item>数据平台</Dropdown-item>
-              <Dropdown-item>报表平台</Dropdown-item>
-            </Dropdown-menu>
-          </Dropdown>
-        </div>
-        <div class="userBox" slot='right'>
-          <!--<Avatar class="user-head" icon="person"></Avatar>-->
-          <Dropdown transfer class="user-drop">
-            <a href="javascript:void(0)">
-              Admin
+              {{user.authId}}
               <Icon type="arrow-down-b"></Icon>
             </a>
             <Dropdown-menu slot="list">
               <Dropdown-item @click.native="modalUser=true">修改密码</Dropdown-item>
+              <Dropdown-item @click.native="clearStorage">清除缓存</Dropdown-item>
               <Dropdown-item @click.native="logout">退出登录</Dropdown-item>
-              <Dropdown-item @click.native="clearStorage">清除数据缓存</Dropdown-item>
             </Dropdown-menu>
           </Dropdown>
         </div>
@@ -95,7 +95,7 @@
   import menus from './menu.vue';
   import Cookies from 'js-cookie';
   import {clearStore} from '../../utils/storage';
-  import {updatePwd} from '../../utils/interface';
+  import {updatePwd, getUserInfo} from '../../utils/interface';
   export default {
     name: 'full',
     components: {
@@ -136,6 +136,9 @@
         },
 //        是否展示左右滑动按钮 默认是false
         scrollBtnShow: false,
+        user: {
+          authId: ''
+        },
         ruleValidate: {
           authPass: [
             {required: true, message: '密码不能为空', trigger: 'blur'}
@@ -158,7 +161,8 @@
       }
     },
     mounted() {
-
+      console.log('aaaaaa');
+      this.init();
     },
     created() {
       this.$store.dispatch('initTab');
@@ -217,6 +221,12 @@
         clearStore();
         window.location.reload();
         this.$Message.success('清除成功');
+      },
+      init: async function () {
+        let res = await getUserInfo();
+        if (res.header.code === '0') {
+          this.user = res.body;
+        }
       },
       themeChange(state) {
         if (state) {

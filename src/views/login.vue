@@ -159,7 +159,7 @@
     height: 100%;
     overflow: hidden;
     position: relative;
-    background-image: url(../assets/img/lg-bg.jpg);
+    background-image: url('../../static/img/lg-bg.jpg');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: 100% 100%;
@@ -167,7 +167,7 @@
       position: absolute;
       top:28%;
       left:7%;
-      background-image: url(../assets/img/lg-txt-pic.png);
+      background-image: url('../../static/img/lg-txt-pic.png');
       background-position: 22% 48%;
       background-repeat: no-repeat;
       background-size:40% 20%;

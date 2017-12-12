@@ -80,3 +80,5 @@ export const logList = (data, body) => fetch(PLATFORM_SYS + '/syslog/page', {
   reqParams: data,
   reqBody: body
 }, 'POST');
+
+export const getUserInfo = () => fetch(PLATFORM_SYS + '/auth/info', {}, 'GET');
