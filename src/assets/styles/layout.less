@@ -166,7 +166,11 @@
     top: 50px;
     left: 0;
     bottom: 0;
-    right: -17px;
+    right: 0px;
+    &::-webkit-scrollbar { /*隐藏滚轮*/
+      display: none;
+      width: 4px;
+    }
     .ivu-menu-item{
       .menu-ellipsis{
         overflow: hidden;
