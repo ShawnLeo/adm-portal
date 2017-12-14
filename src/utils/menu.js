@@ -21,9 +21,9 @@ let iteratorInitMenuJsTree = (parent, children) => {
   }
 };
 
-let getMenuList = async (system) => {
+let getMenuList = async (system, env) => {
   if (!getStore('menus-' + system)) {
-    await menuList({system: system}).then(r => {
+    await menuList({system: system}, env).then(r => {
       iteratorInitMenuJsTree(menus, r.body.children);
       setStore('menus-' + system, JSON.stringify(menus));
     });

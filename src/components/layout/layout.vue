@@ -161,7 +161,6 @@
       }
     },
     mounted() {
-      console.log('aaaaaa');
       this.init();
     },
     created() {
@@ -174,7 +173,7 @@
         this.$refs[name].validate((valid) => {
           setTimeout(() => {
             if (valid) {
-              updatePwd(this.formValidate).then(r => {
+              updatePwd(this.formValidate, this.$store.state.app.env).then(r => {
                 let resultCode = r.header.code;
                 if (resultCode === '0') {
                   this.$Message.success('修改成功！');
@@ -223,7 +222,7 @@
         this.$Message.success('清除成功');
       },
       init: async function () {
-        let res = await getUserInfo();
+        let res = await getUserInfo(this.$store.state.app.env);
         if (res.header.code === '0') {
           this.user = res.body;
         }

@@ -160,7 +160,7 @@
     },
     methods: {
       init: async function () {
-        await logList({'pageNumber': this.pageNumber, 'pageSize': this.pageSize}, this.logVO).then(r => {
+        await logList({'pageNumber': this.pageNumber, 'pageSize': this.pageSize}, this.logVO, this.$store.state.app.env).then(r => {
           this.data6 = r.body.page.content;
           this.totalCount = r.body.page.totalElements;
         });
@@ -174,7 +174,7 @@
         this.init();
       },
       query: async function () {
-        let res = await logList({'pageNumber': this.pageNumber, 'pageSize': this.pageSize}, this.logVO);
+        let res = await logList({'pageNumber': this.pageNumber, 'pageSize': this.pageSize}, this.logVO, this.$store.state.app.env);
         this.data6 = res.body.page.content;
         this.totalCount = res.body.page.totalElements;
       },

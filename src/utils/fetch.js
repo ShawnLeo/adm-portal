@@ -1,4 +1,4 @@
-import {baseUrl} from './env';
+import {getBaseUrl} from './env';
 
 import Cookies from 'js-cookie';
 import {joint} from './utils';
@@ -79,7 +79,7 @@ export const fetch = async (url = '', options = {}, type = 'GET') => {
 
   await axios.request({
     url: url,
-    baseURL: baseUrl,
+    baseURL: getBaseUrl(options.env),
     method: type.toLowerCase(),
     headers: {'Content-Type': 'application/json'},
     params: options.reqParams || {}, // 业务params 请求参数
@@ -117,6 +117,6 @@ export const fetch = async (url = '', options = {}, type = 'GET') => {
  * @returns {Promise.<*>}
  */
 export const download = async (url = '', options = {}, type = 'GET') => {
-  url = baseUrl + '/' + url + '?' + commonDataStr() + '&' + joint(options.reqParams);// 公共数据 请求参数
+  url = getBaseUrl(options.env) + '/' + url + '?' + commonDataStr() + '&' + joint(options.reqParams);// 公共数据 请求参数
   window.open(url);
 };

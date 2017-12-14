@@ -570,7 +570,7 @@
           name: '',
           page: 1,
           size: 1000000
-        });
+        }, this.$store.state.app.env);
         let cities = [];
         for (let e of citiesData.body.content) {
           cities.push({value: e.id, label: e.name});
@@ -581,7 +581,7 @@
         this.isRemote = true;
       },
       init: async function () {
-        await userList({'pageNumber': this.pageNumber, 'pageSize': this.pageSize}, this.user).then(r => {
+        await userList({'pageNumber': this.pageNumber, 'pageSize': this.pageSize}, this.user, this.$store.state.app.env).then(r => {
            this.data6 = r.body.content;
            this.totalCount = r.body.totalElements;
         });
@@ -595,13 +595,13 @@
         this.init();
       },
       query: async function () {
-        let res = await userList({'pageNumber': this.pageNumber, 'pageSize': this.pageSize}, this.user);
+        let res = await userList({'pageNumber': this.pageNumber, 'pageSize': this.pageSize}, this.user, this.$store.state.app.env);
         this.data6 = res.body.content;
         this.totalCount = res.body.totalElements;
       },
       passReset: async function (authId, userId) {
         this.user.authId = authId;
-        await passResest({'id': userId}, this.user).then(r => {
+        await passResest({'id': userId}, this.user, this.$store.state.app.env).then(r => {
          let resultCode = r.header.code;
          if (resultCode === '0') {
            this.$Message.success('密码重置成功!');
@@ -611,7 +611,7 @@
         });
       },
       lockUser: async function(id) {
-        await lockUser({'id': id}).then(r => {
+        await lockUser({'id': id}, this.$store.state.app.env).then(r => {
           let resultCode = r.header.code;
           if (resultCode === '0') {
             this.$Message.success('用户状态更改成功!');
@@ -624,7 +624,7 @@
       handleSubmit(name) {
         this.$refs[name].validate(async (valid) => {
           if (valid && name === 'formValidate') {
-            await saveUser(this.formValidate).then(r => {
+            await saveUser(this.formValidate, this.$store.state.app.env).then(r => {
               let resultCode = r.header.code;
               if (resultCode === '0') {
                 this.$Message.success('用户保存成功!');
@@ -643,7 +643,7 @@
           }
 
           if (valid && name === 'userEdit') {
-            await updateUser(this.userEdit).then(r => {
+            await updateUser(this.userEdit, this.$store.state.app.env).then(r => {
               let resultCode = r.header.code;
               if (resultCode === '0') {
                 this.$Message.success('用户修改成功!');

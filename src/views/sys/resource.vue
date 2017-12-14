@@ -155,7 +155,7 @@
     },
     methods: {
       init: async function () {
-        let res = await resourceList();
+        let res = await resourceList(this.$store.state.app.env);
         this.dataAdapter(res.body);
         this.resources = res.body;
       },
@@ -167,7 +167,7 @@
         if (this.resource.resType === '1') {
           this.resource.modType = '';
         }
-        let res = await resourceSave(this.resource);
+        let res = await resourceSave(this.resource, this.$store.state.app.env);
         if (res.header.code === '0') {
           this.$Message.success('保存成功！');
           this.init();

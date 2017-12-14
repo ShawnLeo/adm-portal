@@ -100,7 +100,7 @@
                   var instance = $.jstree.reference(data.reference);
                   var node = instance.get_node(data.reference);
                   console.log(node);
-                  resourceExport({id: node.id});
+                  resourceExport({id: node.id}, this.$store.state.app.env);
                 }
               }
             }
@@ -115,19 +115,19 @@
         });
       },
       getById: async function (id) {
-        let response = await resourceGet({id: id});
+        let response = await resourceGet({id: id}, this.$store.state.app.env);
         this.$emit('change', response.body); // 通知父组件，刷新右侧内容
       },
       moveNode: async function (id, parent) {
         let response = await resourceChange({
           id: id,
           nId: parent
-        });
+        }, this.$store.state.app.env);
         console.log(response);
       },
       deleteById: async function (id) {
         console.log(id);
-        let response = await resourceDelete({id: id});
+        let response = await resourceDelete({id: id}, this.$store.state.app.env);
         if (response.header.code === '0') {
           this.$emit('refresh'); // 通知父组件，刷新右侧内容
         }

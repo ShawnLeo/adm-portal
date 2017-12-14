@@ -1,5 +1,8 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import {setStore} from './utils/storage';
+setStore('env', process.env.NODE_ENV);
+
 import Vue from 'vue';
 import App from './App';
 import router from './router';
@@ -8,13 +11,11 @@ Vue.use(VueI18n);
 import iView from 'iview';
 Vue.use(iView);
 import Cookies from 'js-cookie';
-import {setStore} from './utils/storage';
+
 import store from './store/store';
 import './assets/styles/layout.less'; // 引入布局样式
 import './assets/styles/cover.less'; // 覆盖样式
 import './assets/styles/common.less';
-
-setStore('env', process.env.NODE_ENV);
 
 var winWidth = document.documentElement.clientWidth;
 if (winWidth <= 600) {

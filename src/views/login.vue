@@ -112,7 +112,7 @@
             let response = await login({
               username: this.formValidate.username,
               password: this.formValidate.password
-            });
+            }, this.$store.state.app.env);
             if (response && response.header) {
               if (response.header.code === '0') {
                 this.$Message.success('登录成功!');
