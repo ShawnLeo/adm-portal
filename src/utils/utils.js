@@ -29,6 +29,7 @@ export const formator = (val, digits) => {
   val = Math.round(val * Math.pow(10, digits)) / Math.pow(10, digits);
   return (lessThanZero ? '-' : '') + val.toFixed(digits);
 };
+
 export const dateFormat = (date, fmt) => {
   var o = {
     'M+': date.getMonth() + 1,
@@ -45,4 +46,32 @@ export const dateFormat = (date, fmt) => {
     if (new RegExp('(' + k + ')').test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (('00' + o[k]).substr(('' + o[k]).length)));
   }
   return fmt;
+};
+
+/**
+ * 获取两个日期之间的日期列表
+ */
+export const listDays = (begin, end) => {
+  let arr = [];
+  let ab = begin.split('-');
+  let ae = end.split('-');
+  let db = new Date();
+  db.setUTCFullYear(ab[0], ab[1] - 1, ab[2]);
+  let de = new Date();
+  de.setUTCFullYear(ae[0], ae[1] - 1, ae[2]);
+  let unixDb = db.getTime();
+  let unixDe = de.getTime();
+  for (let k = unixDb; k <= unixDe;) {
+    arr.push(dateFormat(new Date(parseInt(k)), 'yyyy-MM-dd'));
+    k = k + 24 * 60 * 60 * 1000;
+  }
+  return arr;
+};
+
+/**
+ * 获取一个日期之前或者之后几天的日期
+ */
+export const pulsDays = (date, days) => {
+  let datePlus = new Date(date.getTime() + (days * 24 * 60 * 60 * 1000));
+  return datePlus;
 };
