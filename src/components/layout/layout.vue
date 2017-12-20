@@ -9,8 +9,11 @@
       </div>
       <!-- logo /-->
       <!-- 左侧导航 -->
-      <menus></menus>
+      <menus v-if="state.sidebar.opened"></menus>
       <!-- 左侧导航 /-->
+
+      <!--收缩菜单-->
+      <menuShrink v-else></menuShrink>
     </div>
     <!-- 左侧 /-->
     <!-- 主体 -->
@@ -93,6 +96,7 @@
   import container from './container.vue';
   import menuTabs from './menuTabs.vue';
   import menus from './menu.vue';
+  import menuShrink from './menuShrink.vue';
   import Cookies from 'js-cookie';
   import {clearStore} from '../../utils/storage';
   import {updatePwd, getUserInfo} from '../../utils/interface';
@@ -103,7 +107,8 @@
 //      NavBar,
       container,
       menuTabs,
-      menus
+      menus,
+      menuShrink
     },
     data() {
       const validatePass = (rule, value, callback) => {
@@ -161,7 +166,7 @@
       }
     },
     mounted() {
-      console.log('aaaaaa');
+      console.log(this.$store.state.app);
       this.init();
     },
     created() {
