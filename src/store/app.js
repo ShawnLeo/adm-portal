@@ -25,7 +25,8 @@ const app = {
     }],
     menuTabarWidth: null,
     menuFirsClick: true,
-    system: '基础平台'
+    system: '基础平台',
+    env: process.env.NODE_ENV
   },
   mutations: {
     /**
