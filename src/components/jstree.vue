@@ -137,8 +137,6 @@
       }
     },
     mounted() {
-//      this.dataAdapter(this.resources);
-//      debugger;
       this.init();
     },
     watch: {

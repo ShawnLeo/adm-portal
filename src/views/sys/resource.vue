@@ -177,7 +177,6 @@
       },
       changeResource: function (_resource) {
         if (!_resource) {
-          this.$Message.warning('操作失败！');
           return;
         }
         this.cancelDisable();
@@ -199,7 +198,8 @@
         if (parent.id === '-1') { // 根节点下只添加平台
           this.resource = {
             resType: '2',
-            modType: '1'
+            modType: '1',
+            parentId: '0'
           };
           this.api = true;
           this.func = true;
