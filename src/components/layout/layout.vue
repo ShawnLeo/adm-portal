@@ -9,12 +9,11 @@
       </div>
       <!-- logo /-->
       <!-- 左侧导航 -->
-      <menus v-if="state.sidebar.opened"></menus>
+      <menus v-show="state.sidebar.opened"></menus>
       <!-- 左侧导航 /-->
-
-      <!--收缩菜单-->
-      <menuShrink v-else></menuShrink>
     </div>
+    <!--收缩菜单-->
+    <menuShrink v-show="!state.sidebar.opened"></menuShrink>
     <!-- 左侧 /-->
     <!-- 主体 -->
     <div class="main-wrapper">

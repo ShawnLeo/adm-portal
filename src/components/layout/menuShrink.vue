@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="position: fixed;left: 0;top: 50px; z-index: 11111;">
     <div v-for="(item, index) in menu">
       <div style="text-align: center;" :key="index">
         <!--不为0-->
