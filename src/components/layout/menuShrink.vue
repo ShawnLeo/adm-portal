@@ -60,7 +60,7 @@
       }
     },
     beforeCreate() {
-      getMenuList(this.$store.state.app.system);
+      getMenuList(this.$store.state.app.system, this.$store.state.app.env);
     },
     mounted() {
       let self = this;
