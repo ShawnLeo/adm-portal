@@ -100,7 +100,7 @@
                   var instance = $.jstree.reference(data.reference);
                   var node = instance.get_node(data.reference);
                   console.log(node);
-                  resourceExport({id: node.id}, this.$store.state.app.env);
+                  resourceExport({id: node.id}, self.$store.state.app.env);
                 }
               }
             }

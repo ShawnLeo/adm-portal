@@ -41,7 +41,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {getMenuList, getMenusFromCookies} from '../../utils/menu';
+  import {getMenusFromCookies} from '../../utils/menu';
 
   export default {
     name: 'menuShrink',
@@ -59,9 +59,9 @@
         this.$router.push({path: a});
       }
     },
-    beforeCreate() {
-      getMenuList(this.$store.state.app.system, this.$store.state.app.env);
-    },
+//    beforeCreate() {
+//      getMenuList(this.$store.state.app.system, this.$store.state.app.env);
+//    },
     mounted() {
       let self = this;
       getMenusFromCookies(this.$store.state.app.system, function (menu) {

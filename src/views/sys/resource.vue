@@ -8,7 +8,7 @@
              资源树
           </p>
           <a href="#" slot="extra">
-            <Upload class="btn-upload" action="http://localhost:7031/platform-sys/resource/import" :show-upload-list=false :on-success="handleSuccess">
+            <Upload class="btn-upload" :action="importUrl" :show-upload-list=false :on-success="handleSuccess">
               <Button type="info" shape="circle" icon="ios-cloud-upload-outline">导入</Button>
             </Upload>
             <Button class="btn-refresh" type="ghost" shape="circle" v-on:click="init()" icon="refresh">刷新</Button>
@@ -135,13 +135,15 @@
 <script type="text/ecmascript-6">
   import jstree from '../../components/jstree.vue';
   import {resourceList, resourceSave} from '../../utils/interface';
-
+  import {getBaseUrl} from '../../utils/env';
+  import {commonDataStr} from '../../utils/fetch';
   export default {
     data() {
       return {
         resource: {
           resType: '1'
         },
+        importUrl: getBaseUrl(this.$store.state.app.env) + '/platform-sys/resource/import' + '?' + commonDataStr(),
         api: false,
         module: false,
         platform: false,
@@ -252,8 +254,8 @@
           this.iterator(data.children[i]);
         }
       },
-      handleSuccess: function () {
-        alert('aaa');
+      handleSuccess: function (res) {
+        console.log(res);
       }
     },
     watch: {

@@ -23,6 +23,7 @@ let commonDataStr = () => {
     'xSignature': ''
   });
 };
+export {commonDataStr};
 
 const codeEvents = (respose, codeEvents) => {
   if (respose.code === '0') { // 成功
