@@ -58,7 +58,7 @@
       };
       // 激活当前tab Menu
       let index = this.menuTabs.findIndex((n) => {
-        return n.path === this.$router.app._route.path;
+        return n.path === self.$router.app._route.path && JSON.stringify(n.query) === JSON.stringify(self.$router.app._route.query);
       });
       let tabs = this.$refs.tabsPageOpened;
       this.moveToView(tabs[index].$el);
@@ -69,14 +69,11 @@
           if (this.menuTabs[index].path === this.$route.path) {
             let next = (this.menuTabs.length - 1) === index ? this.menuTabs[index - 1] : this.menuTabs[index + 1];
             this.$nextTick(() => {
-              this.$router.push(next.path);
+              this.$router.push({path: next.path, query: next.query});
             });
           }
           this.$store.dispatch('removeTab', index);
         }
-      },
-      goTabRouter(item) { // 跳转至
-        this.$router.push(item);
       },
       addTabScroll() {
         let maxWidth = this.state.menuTabarWidth;

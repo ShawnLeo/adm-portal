@@ -7,10 +7,18 @@ let iteratorInitMenuJsTree = (parent, children) => {
     return;
   }
   for (let i = 0; i < children.length; i++) {
+    let icon = 'person-stalker';
+    try {
+      icon = JSON.parse(children[i].li_attr.style).className;
+      console.log(icon);
+    } catch (err) {
+      console.log(children[i].li_attr.name + '样式转换异常！');
+    }
     let menu = {
       name: children[i].li_attr.name,
       url: children[i].li_attr.path,
-      icon: JSON.parse(children[i].li_attr.style) ? JSON.parse(children[i].li_attr.style).className : 'person-stalker',
+      icon: icon,
+      iframe: children[i].li_attr.iframe,
       _id: children[i].li_attr.id
     };
     if (children[i].children.length) {

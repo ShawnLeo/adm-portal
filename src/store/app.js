@@ -25,7 +25,7 @@ const app = {
     }],
     menuTabarWidth: null,
     menuFirsClick: true,
-    system: '基础平台',
+    system: '内容管理平台',
     env: process.env.NODE_ENV
   },
   mutations: {
@@ -93,6 +93,13 @@ const app = {
         path: payload.path,
         query: payload.query
       };
+      if (payload.meta.title === 'iframe') {
+        router = {
+          title: payload.query.name,
+          path: payload.path,
+          query: payload.query
+        };
+      }
       state.menuTabs.push(router);
       setStore('menuTabs-' + state.system, JSON.stringify(state.menuTabs));
     },
@@ -140,11 +147,14 @@ const app = {
         if (!n) {
           return false;
         }
-        if (n.path === router.path && JSON.stringify(n.query) !== JSON.stringify(router.query)) { // 动态带参数路由
+        if (router.path === '/iframe' && JSON.stringify(n.query) !== JSON.stringify(router.query)) {
+          return false;
+        } else if (n.path === router.path && JSON.stringify(n.query) !== JSON.stringify(router.query)) { // 动态带参数路由
           commit('REMOVE_TAB', index);
           return false;
+        } else {
+          return n.path === router.path;
         }
-        return n.path === router.path;
       });
       if (pathIndex === -1) {
         commit('ADD_TAB', router);

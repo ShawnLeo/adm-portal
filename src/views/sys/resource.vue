@@ -64,7 +64,15 @@
                 </i-col>
               </Row>
               <Row v-if="resource.modType === '2' && resource.resType === '2' ">
-                <i-col span="24">
+                <i-col span="12">
+                  <FormItem label="iframe">
+                    <RadioGroup v-model="resource.iframe">
+                      <Radio label="0">否</Radio>
+                      <Radio label="1">是</Radio>
+                    </RadioGroup>
+                  </FormItem>
+                </i-col>
+                <i-col span="12">
                   <Form-item label="菜单路由">
                     <Input v-model="resource.path" placeholder="请输入"></Input>
                   </Form-item>
@@ -141,7 +149,8 @@
     data() {
       return {
         resource: {
-          resType: '1'
+          resType: '1',
+          iframe: 0
         },
         importUrl: getBaseUrl(this.$store.state.app.env) + '/platform-sys/resource/import' + '?' + commonDataStr(),
         api: false,

@@ -54,7 +54,7 @@
         <menu-tabs/>
         <container>
           <transition name="fade" mode="out-in">
-            <router-view></router-view>
+              <router-view></router-view>
           </transition>
           <!-- 路由/ -->
         </container>

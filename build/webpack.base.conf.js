@@ -26,7 +26,7 @@ function publicPath() {
 
 module.exports = {
   entry: {
-    app: './src/index.js'
+    app: (process.env.NODE_ENV  === 'dev') ? './src/main.js' : './src/index.js'
   },
   output: {
     path: config.buildProd.assetsRoot,

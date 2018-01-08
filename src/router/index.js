@@ -2,7 +2,8 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Cookies from 'js-cookie';
 import store from '../store/store';
-import layout from '../components/layout';
+import layouts from '../components/layout';
+// import full from '../components/layout/full.vue';
 
 import {resource, user, role, roleResource, log} from '../views/sys';
 import iframe from '../components/iframe';
@@ -19,7 +20,7 @@ const router = new Router({
     meta: {
       title: '首页 '
     },
-    component: layout,
+    component: layouts.Layout,
     redirect: '/index',
     children: [{
       path: '/index',

@@ -8,12 +8,12 @@
             <Icon :type="item.icon?item.icon:'checkmark'"></Icon>
             <span class="menu-ellipsis">{{item.name}}</span>
           </template>
-          <Menu-item :name="sub.url" v-for="sub in item.children" :key="sub._id">
+          <Menu-item :name="routerFilter(sub.iframe, sub.url, sub.name)" v-for="sub in item.children" :key="sub._id">
             <!--<Icon :type="sub.icon?sub.icon:'checkmark'"></Icon>-->
             <span  class="menu-ellipsis">{{sub.name}}</span>
           </Menu-item>
         </Submenu>
-        <Menu-item :name="item.url" v-else>
+        <Menu-item :name="routerFilter(item.iframe, item.url, item.name)" v-else>
           <Icon :type="item.icon?item.icon:'checkmark'"></Icon>
           <span class="menu-ellipsis">{{item.name}}</span>
         </Menu-item>
@@ -44,6 +44,13 @@
               item.opened = item.active;
             });
           });
+        },
+        routerFilter(iframe, url, name) {
+          if (iframe === 1) {
+            return '/iframe?name=' + name + '&path=' + url;
+          } else {
+            return url;
+          }
         }
     },
     beforeCreate() {
