@@ -1,6 +1,6 @@
 {
   "name": "adm-portal",
-  "version": "1.3.31",
+  "version": "1.4.01",
   "description": "后台管理门户",
   "author": "Shawn <lishuai_247@163.com>",
   "scripts": {
@@ -8,6 +8,7 @@
     "start": "node build/dev-server.js",
     "build": "node build/build.js prod",
     "build:test": "node build/build.js test",
+    "build:test:pub": "node build/build.js test pub",
     "build:pre": "node build/build.js pre",
     "build:prod": "node build/build.js prod",
     "lint": "eslint --ext .js,.vue src"

@@ -9,6 +9,23 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 
+var output = {
+  path: config.build.assetsRoot,
+  filename: utils.assetsPath('js/[name].[chunkhash].js'),
+  chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
+}
+
+if(process.env.NODE_PUB === 'pub'){
+  output = {
+    path: config.build.assetsRoot,
+    filename: 'index.js',
+    library: 'index',
+    libraryTarget: 'umd',
+    umdNamedDefine: true
+  }
+}
+
+
 var webpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({
@@ -17,11 +34,7 @@ var webpackConfig = merge(baseWebpackConfig, {
     })
   },
   devtool: config.build.productionSourceMap ? '#source-map' : false,
-  output: {
-    path: config.build.assetsRoot,
-    filename: utils.assetsPath('js/[name].[chunkhash].js'),
-    chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
-  },
+  output: output,
   plugins: [
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
@@ -45,6 +58,23 @@ var webpackConfig = merge(baseWebpackConfig, {
         safe: true
       }
     }),
+    new CopyWebpackPlugin([
+      {
+        from: path.resolve(__dirname, '../static'),
+        to: config.build.assetsSubDirectory,
+        ignore: ['.*']
+      },
+      {
+        from: utils.assetsPath('js/app.*.js'),
+        to: utils.assetsPath('js/index.js'),
+        ignore: ['.*']
+      }
+    ])
+  ]
+})
+
+if(process.env.NODE_PUB !== 'pub'){
+  webpackConfig.plugins.push(
     // generate dist index.html with correct asset hash for caching.
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
@@ -61,7 +91,8 @@ var webpackConfig = merge(baseWebpackConfig, {
       },
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
       chunksSortMode: 'dependency'
-    }),
+    }));
+  webpackConfig.plugins.push(
     // split vendor js into its own file
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
@@ -75,13 +106,15 @@ var webpackConfig = merge(baseWebpackConfig, {
           ) === 0
         )
       }
-    }),
+    }));
+  webpackConfig.plugins.push(
     // extract webpack runtime and module manifest to its own file in order to
     // prevent vendor hash from being updated whenever app bundle is updated
     new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest',
       chunks: ['vendor']
-    }),
+    }));
+  webpackConfig.plugins.push(
     // copy custom static assets
     new CopyWebpackPlugin([
       {
@@ -89,9 +122,9 @@ var webpackConfig = merge(baseWebpackConfig, {
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
       }
-    ])
-  ]
-})
+    ]));
+}
+
 
 if (config.build.productionGzip) {
   var CompressionWebpackPlugin = require('compression-webpack-plugin')

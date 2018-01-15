@@ -4,7 +4,7 @@ require('./check-versions')()
 process.env.NODE_ENV = process.argv[2] || 'prod'
 process.env.NODE_PUB = process.argv[3] || ''
 // process.env.NODE_ENV = 'production'
-console.log('开始构建，构建环境：' + process.env.NODE_ENV )
+console.log('开始构建，构建环境：' + process.env.NODE_ENV)
 
 var ora = require('ora')
 var rm = require('rimraf')
