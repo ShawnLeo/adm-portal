@@ -79,5 +79,5 @@ export const pulsDays = (date, days) => {
  * 获取当前域名
  */
 export const domain = () => {
-  return encodeURIComponent(window.location.protocol + '//' + window.location.host);
+  return encodeURIComponent(window.location.href.split('#')[0]);
 };
