@@ -72,6 +72,12 @@ export const listDays = (begin, end) => {
  * 获取一个日期之前或者之后几天的日期
  */
 export const pulsDays = (date, days) => {
-  let datePlus = new Date(date.getTime() + (days * 24 * 60 * 60 * 1000));
-  return datePlus;
+  return new Date(date.getTime() + (days * 24 * 60 * 60 * 1000));
+};
+
+/**
+ * 获取当前域名
+ */
+export const domain = () => {
+  return encodeURIComponent(window.location.protocol + '//' + window.location.host);
 };

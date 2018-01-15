@@ -1,10 +1,11 @@
-import {getBaseUrl} from './env';
+// import {getBaseUrl} from './env';
 
 import Cookies from 'js-cookie';
 import {joint} from './utils';
 import axios from 'axios';
 import {Message} from 'iview';
 import router from '../router';
+import * as mainConst from '../utils/const';
 
 /**
  *  公共数据请求参数(全部放在url params 中)
@@ -17,7 +18,7 @@ let commonDataStr = () => {
     'xClient': '',
     'xDevice': '',
     'xService': '',
-    'xToken': Cookies.get('sessionId') || '',
+    'xToken': Cookies.get(mainConst.ADM_SESSION_ID) || '',
     'xTimestamp': new Date().getTime(),
     'xRepeat': 0,
     'xSignature': ''
@@ -31,7 +32,7 @@ const codeEvents = (respose, codeEvents) => {
     return true;
   }
   if (respose.code === '-101') { // 请登录
-    Cookies.remove('sessionId');
+    Cookies.remove(mainConst.ADM_SESSION_ID);
     router.push('/login');
     return false;
   }
@@ -64,7 +65,6 @@ const codeEvents = (respose, codeEvents) => {
  * @param url
  * @param options
  * @param type
- * @param method
  * @returns {Promise.<*>}
  */
 export const fetch = async (url = '', options = {}, type = 'GET') => {
@@ -80,7 +80,7 @@ export const fetch = async (url = '', options = {}, type = 'GET') => {
 
   await axios.request({
     url: url,
-    baseURL: getBaseUrl(options.env),
+    baseURL: options.baseUrl,
     method: type.toLowerCase(),
     headers: {'Content-Type': 'application/json'},
     params: options.reqParams || {}, // 业务params 请求参数
@@ -111,13 +111,13 @@ export const fetch = async (url = '', options = {}, type = 'GET') => {
 };
 
 /**
- * 统一数据获取方法（from NodeJs）
+ * 统一数据获取方法
  * @param url
  * @param options
  * @param type
  * @returns {Promise.<*>}
  */
 export const download = async (url = '', options = {}, type = 'GET') => {
-  url = getBaseUrl(options.env) + '/' + url + '?' + commonDataStr() + '&' + joint(options.reqParams);// 公共数据 请求参数
+  url = options.baseUrl + '/' + url + '?' + commonDataStr() + '&' + joint(options.reqParams);// 公共数据 请求参数
   window.open(url);
 };

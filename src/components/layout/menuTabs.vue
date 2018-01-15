@@ -4,9 +4,9 @@
     <div id="tabs-bar" ref="elemTabar" class="tabs-bar">
       <ul ref="elemScroll" class="utab">
         <router-link tag="li" v-for="(item, index) in menuTabs" :key="index" ref="tabsPageOpened"
-                     :to="{ path: item.path, query:item.query}" class="scr-menu-item">
+                     :to="{ path: item.fullPath}" class="scr-menu-item">
           {{ item.title}}
-          <span v-if="item.path !=='/index'" class="tab-close" v-on:click.stop="removeOpenTab(index,$event)"><Icon
+          <span v-if="item.fullPath !== indexUrl" class="tab-close" v-on:click.stop="removeOpenTab(index,$event)"><Icon
             type="close-circled"></Icon></span>
         </router-link>
       </ul>
@@ -36,10 +36,13 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import * as mainConst from '../../utils/const';
   export default {
     name: 'menu-tabs',
     data() {
-      return {};
+      return {
+        indexUrl: mainConst.ADM_INDEX
+      };
     },
     computed: {
       state() {
@@ -58,7 +61,7 @@
       };
       // 激活当前tab Menu
       let index = this.menuTabs.findIndex((n) => {
-        return n.path === self.$router.app._route.path && JSON.stringify(n.query) === JSON.stringify(self.$router.app._route.query);
+        return n.fullPath === self.$router.app._route.fullPath;
       });
       let tabs = this.$refs.tabsPageOpened;
       this.moveToView(tabs[index].$el);
@@ -66,10 +69,10 @@
     methods: {
       removeOpenTab(index, event) { // 移除tab
         if (this.menuTabs.length > 1) {
-          if (this.menuTabs[index].path === this.$route.path) {
+          if (this.menuTabs[index].fullPath === this.$route.fullPath) {
             let next = (this.menuTabs.length - 1) === index ? this.menuTabs[index - 1] : this.menuTabs[index + 1];
             this.$nextTick(() => {
-              this.$router.push({path: next.path, query: next.query});
+              this.$router.push(next.fullPath);
             });
           }
           this.$store.dispatch('removeTab', index);
@@ -113,24 +116,24 @@
       dropCloseTabs(dropIndex) {
 //        1 关闭当前
         if (dropIndex === '1') {
-          if (this.$route.path === '/index') {
+          if (this.$route.fullPath === mainConst.ADM_INDEX) {
             return;
           }
           let curIndex = this.menuTabs.findIndex((item) => {
-            return item.path === this.$route.path;
+            return item.fullPath === this.$route.fullPath;
           });
           this.removeOpenTab(curIndex);
         }
 //        2 关闭其他
         if (dropIndex === '2') {
-          this.$store.dispatch('removeOtherTab', this.$route.path);
+          this.$store.dispatch('removeOtherTab', this.$route.fullPath);
           this.$refs.elemScroll.style.left = '0px';
         }
 //        3关闭所有
         if (dropIndex === '3') {
           this.$store.dispatch('removeAllTab');
           this.$nextTick(() => {
-            this.$router.push('/index');
+            this.$router.push(mainConst.ADM_INDEX);
             this.$refs.elemScroll.style.left = '0px';
           });
         }
@@ -152,7 +155,7 @@
       '$route'(to) {
         // 激活当前tab Menu
         let index = this.menuTabs.findIndex((n) => {
-          return n.path === to.path;
+          return n.fullPath === to.fullPath;
         });
         let tabs = this.$refs.tabsPageOpened;
         if (!tabs[index]) {

@@ -4,6 +4,7 @@
 
 <script type="text/ecmascript-6">
   import Cookies from 'js-cookie';
+  import * as mainConst from '../../utils/const';
   export default {
     data() {
       return {
@@ -13,17 +14,18 @@
     methods: {
       setIframeHeight(iframe) {
         if (iframe) {
-          var iframeWin = iframe.contentWindow || iframe.contentDocument.parentWindow;
+          let iframeWin = iframe.contentWindow || iframe.contentDocument.parentWindow;
           if (iframeWin.document.body) {
             iframe.height = iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight;
           }
         }
       },
       getPath(path, title) {
+        let ts = new Date().getTime();
         if (path.split('?').length > 1) {
-          this.toPath = path + '&accessToken=' + Cookies.get('sessionId');
+          this.toPath = path + '&sessionId=' + Cookies.get(mainConst.ADM_SESSION_ID) + '&ts=' + ts;
         } else {
-          this.toPath = path + '?accessToken=' + Cookies.get('sessionId');
+          this.toPath = path + '?sessionId=' + Cookies.get(mainConst.ADM_SESSION_ID) + '&ts=' + ts;
         }
         if (title) {
           document.title = title;
@@ -36,7 +38,7 @@
     },
     watch: {
       '$route' (to, from) {
-        this.getPath(to.query.path, to.query.name);
+        this.getPath(decodeURIComponent(window.location.hash.split('path=')[1]), to.query.name);
       }
     }
   };

@@ -64,15 +64,7 @@
                 </i-col>
               </Row>
               <Row v-if="resource.modType === '2' && resource.resType === '2' ">
-                <i-col span="12">
-                  <FormItem label="iframe">
-                    <RadioGroup v-model="resource.iframe">
-                      <Radio label="0">否</Radio>
-                      <Radio label="1">是</Radio>
-                    </RadioGroup>
-                  </FormItem>
-                </i-col>
-                <i-col span="12">
+                <i-col span="24">
                   <Form-item label="菜单路由">
                     <Input v-model="resource.path" placeholder="请输入"></Input>
                   </Form-item>
@@ -86,6 +78,14 @@
                 </i-col>
                 <i-col span="12">
                   <FormItem label='*格式 例如：{"className":"settings"}' :label-width= 250></FormItem>
+                </i-col>
+              </Row>
+
+              <Row v-if="resource.modType === '1' && resource.resType === '2' ">
+                <i-col span="24">
+                  <Form-item label="平台部署地址">
+                    <Input v-model="resource.deployUrl" placeholder="例如：https://static-test.meimeitech.com/pc/statistic/index.html"></Input>
+                  </Form-item>
                 </i-col>
               </Row>
 
@@ -143,7 +143,6 @@
 <script type="text/ecmascript-6">
   import jstree from '../../components/jstree.vue';
   import {resourceList, resourceSave} from '../../utils/interface';
-  import {getBaseUrl} from '../../utils/env';
   import {commonDataStr} from '../../utils/fetch';
   export default {
     data() {
@@ -152,7 +151,7 @@
           resType: '1',
           iframe: 0
         },
-        importUrl: getBaseUrl(this.$store.state.app.env) + '/platform-sys/resource/import' + '?' + commonDataStr(),
+        importUrl: this.$store.state.app.baseUrl + '/platform-sys/resource/import' + '?' + commonDataStr(),
         api: false,
         module: false,
         platform: false,
@@ -166,7 +165,7 @@
     },
     methods: {
       init: async function () {
-        let res = await resourceList(this.$store.state.app.env);
+        let res = await resourceList(this.$store.state.app.baseUrl);
         this.dataAdapter(res.body);
         this.resources = res.body;
       },
@@ -178,7 +177,7 @@
         if (this.resource.resType === '1') {
           this.resource.modType = '';
         }
-        let res = await resourceSave(this.resource, this.$store.state.app.env);
+        let res = await resourceSave(this.resource, this.$store.state.app.baseUrl);
         if (res.header.code === '0') {
           this.$Message.success('保存成功！');
           this.init();

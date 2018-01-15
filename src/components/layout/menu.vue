@@ -1,38 +1,28 @@
 <template>
-  <div class="navbar" :class="theme">
-    <Menu width="220" ref="menu" :theme="theme" :open-names="[$route.meta.prevLevelName]" :active-name="$route.path"
-          accordion @on-select="selectFn">
-      <div v-for="(item,index) in menu " :key="item._id">
-        <Submenu :name="item.name" :n="item.name" v-if="item.children">
-          <template slot="title">
-            <Icon :type="item.icon?item.icon:'checkmark'"></Icon>
-            <span class="menu-ellipsis">{{item.name}}</span>
-          </template>
-          <Menu-item :name="routerFilter(sub.iframe, sub.url, sub.name)" v-for="sub in item.children" :key="sub._id">
-            <!--<Icon :type="sub.icon?sub.icon:'checkmark'"></Icon>-->
-            <span  class="menu-ellipsis">{{sub.name}}</span>
-          </Menu-item>
-        </Submenu>
-        <Menu-item :name="routerFilter(item.iframe, item.url, item.name)" v-else>
-          <Icon :type="item.icon?item.icon:'checkmark'"></Icon>
+  <div>
+    <div v-for="(item,index) in menus " :key="item._id">
+      <Submenu :name="item.name" :n="item.name" v-if="item.children && item.children.length > 0">
+        <template slot="title">
+          <Icon :type="item.icon?item.icon:'ios-browsers'"></Icon>
           <span class="menu-ellipsis">{{item.name}}</span>
-        </Menu-item>
-      </div>
-    </Menu>
+        </template>
+        <my-menu :menus="item.children"></my-menu>
+      </Submenu>
+      <Menu-item :name="routerFilter(item.deployUrl, item.url, item.name)" v-else>
+        <Icon :type="item.icon?item.icon:'chevron-right'"></Icon>
+        <span class="menu-ellipsis">{{item.name}}</span>
+      </Menu-item>
+    </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-  import {getMenuList, getMenusFromCookies} from '../../utils/menu';
-
+  /* eslint-disable no-unneeded-ternary */
+  import {domain} from '../../utils/utils';
+  import menu from './menu.vue';
   export default {
-    name: 'menus',
-    data() {
-      return {
-        theme: 'dark', // 主题
-        menu: [] // 导航菜单
-      };
-    },
+    name: 'my-menu',
+    props: ['menus'],
     methods: {
         /**
          * 选择菜单
@@ -45,22 +35,17 @@
             });
           });
         },
-        routerFilter(iframe, url, name) {
-          if (iframe === 1) {
+        routerFilter(deployUrl, url, name) {
+          if (url && (url.indexOf('http://') >= 0 || url.indexOf('https://') >= 0)) {
             return '/iframe?name=' + name + '&path=' + url;
           } else {
-            return url;
+            deployUrl = deployUrl ? deployUrl : domain();
+            return '/iframe?name=' + name + '&path=' + deployUrl + '#' + url;
           }
         }
     },
-    beforeCreate() {
-      getMenuList(this.$store.state.app.system, this.$store.state.app.env);
-    },
-    mounted() {
-      let self = this;
-      getMenusFromCookies(this.$store.state.app.system, function (menu) {
-        self.menu = menu;
-      });
+    components: {
+      'my-menu': menu
     }
   };
 </script>

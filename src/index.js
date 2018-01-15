@@ -1,5 +1,5 @@
 // 公共布局
-import Layout from './components/layout';
+import layouts from './components/layout';
 // 公共工具库
 import utils from './utils';
 // 公共组件
@@ -9,7 +9,7 @@ import {index, login, _404} from './views';
 // 公共Vuex模块
 import app from './store';
 let AdmPortal = {
-  Layout: Layout,
+  layouts: layouts,
   resource: resource,
   user: user,
   role: role,
@@ -33,5 +33,5 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 export {
-  Layout, resource, user, role, roleResource, log, iframe, index, login, _404, utils, app
+  layouts, resource, user, role, roleResource, log, iframe, index, login, _404, utils, app
 };

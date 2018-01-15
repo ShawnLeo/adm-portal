@@ -1,50 +1,59 @@
-import { menuList } from './interface';
-// import Cookies from 'js-cookie';
+import { roleMenuList } from './interface';
 import {getStore, setStore} from '../utils/storage';
+
 let menus = [];
-let iteratorInitMenuJsTree = (parent, children) => {
+let iteratorInitMenuJsTree = (parent, children, deployUrl) => {
   if (!children) {
     return;
   }
   for (let i = 0; i < children.length; i++) {
-    let icon = 'person-stalker';
+    if (children[i].li_attr.resType === '1') {
+      continue;
+    }
+    // 样式
+    let icon = '';
     try {
       icon = JSON.parse(children[i].li_attr.style).className;
       console.log(icon);
     } catch (err) {
       console.log(children[i].li_attr.name + '样式转换异常！');
     }
+    // deployUrl 部署路径
+    if (children[i].li_attr.modType === '1') {
+      deployUrl = children[i].li_attr.deployUrl;
+    }
+
     let menu = {
       name: children[i].li_attr.name,
       url: children[i].li_attr.path,
       icon: icon,
-      iframe: children[i].li_attr.iframe,
+      deployUrl: deployUrl,
       _id: children[i].li_attr.id
     };
-    if (children[i].children.length) {
+    if (children[i].children.length > 0) {
       menu.children = [];
-      iteratorInitMenuJsTree(menu.children, children[i].children);
+      iteratorInitMenuJsTree(menu.children, children[i].children, deployUrl);
     }
     parent.push(menu);
   }
 };
 
-let getMenuList = async (system, env) => {
-  if (!getStore('menus-' + system)) {
-    await menuList({system: system}, env).then(r => {
-      iteratorInitMenuJsTree(menus, r.body.children);
-      setStore('menus-' + system, JSON.stringify(menus));
+let getMenuList = async (baseUrl, authId) => {
+  if (!getStore('menus-' + authId)) {
+    await roleMenuList(baseUrl).then(r => {
+      iteratorInitMenuJsTree(menus, r.body.children, '');
+      setStore('menus-' + authId, JSON.stringify(menus));
     });
   }
 };
 
-let getMenusFromCookies = (system, menus) => {
-  if (!getStore('menus-' + system)) {
+let getMenusFromCookies = (authId, _menus) => {
+  if (!getStore('menus-' + authId)) {
     setTimeout(() => {
-        getMenusFromCookies(system, menus);
+        getMenusFromCookies(authId, _menus);
     }, 100);
   } else {
-    menus(JSON.parse(getStore('menus-' + system)));
+    _menus(JSON.parse(getStore('menus-' + authId)));
   }
 };
 

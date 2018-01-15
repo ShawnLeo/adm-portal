@@ -1,15 +1,18 @@
 // import Cookies from 'js-cookie';
+import {getBaseUrl} from '../utils/env';
+import * as mainConst from '../utils/const';
 import {getStore, setStore} from '../utils/storage';
 import iView from 'iview';
 
 const app = {
   state: {
+    userInfo: {},
     sidebar: {
       opened: !+getStore('sidebarStatus'),
       minOpen: false // 小屏时菜单状态
     },
     router: {
-      currentPageName: 'index'
+      currentPageName: mainConst.ADM_INDEX
     },
     lang: {
       icon: '#icon-zhongguo',
@@ -21,14 +24,28 @@ const app = {
     },
     menuTabs: [{
       title: '首页',
-      path: '/index'
+      fullPath: mainConst.ADM_INDEX,
+      params: {
+        prevLevelName: '首页',
+        title: '首页'
+      }
     }],
     menuTabarWidth: null,
     menuFirsClick: true,
-    system: '内容管理平台',
-    env: process.env.NODE_ENV
+    system: '基础平台',
+    // env: process.env.NODE_ENV,
+    baseUrl: getBaseUrl(process.env.NODE_ENV)
   },
   mutations: {
+    /**
+     * 初始化用户信息
+     * @param state
+     * @param payload
+     * @constructor
+     */
+    INIT_USER_INFO: (state, payload) => {
+      state.userInfo = payload;
+    },
     /**
      * 菜单的缩展
      */
@@ -82,48 +99,47 @@ const app = {
       }
     },
     INIT_TAB: (state) => {
-      state.menuTabs = getStore('menuTabs-' + state.system) ? JSON.parse(getStore('menuTabs-' + state.system)) : state.menuTabs;
+      state.menuTabs = getStore('menuTabs') ? JSON.parse(getStore('menuTabs')) : state.menuTabs;
     },
     ADD_TAB: (state, payload) => {
       if (!payload.meta.title) {
         return;
       }
-      let router = {
-        title: payload.meta.title,
-        path: payload.path,
-        query: payload.query
+      let r = {
+        title: payload.query.name,
+        fullPath: payload.fullPath,
+        params: {
+          prevLevelName: '首页',
+          title: payload.query.name
+        }
       };
-      if (payload.meta.title === 'iframe') {
-        router = {
-          title: payload.query.name,
-          path: payload.path,
-          query: payload.query
-        };
-      }
-      state.menuTabs.push(router);
-      setStore('menuTabs-' + state.system, JSON.stringify(state.menuTabs));
+      state.menuTabs.push(r);
+      setStore('menuTabs', JSON.stringify(state.menuTabs));
     },
     REMOVE_TAB: (state, index) => {
       state.menuTabs.splice(index, 1);
-      setStore('menuTabs-' + state.system, JSON.stringify(state.menuTabs));
+      setStore('menuTabs', JSON.stringify(state.menuTabs));
     },
     SET_MENU_TAB_WIDTH: (state, w) => {
       state.menuTabarWidth = w;
     },
     CLOSE_ALL_OPENED_TAB: (state) => {
       state.menuTabs = state.menuTabs.filter((item) => {
-        return item.path === '/index';
+        return item.fullPath === mainConst.ADM_INDEX;
       });
-      setStore('menuTabs-' + state.system, JSON.stringify(state.menuTabs));
+      setStore('menuTabs', JSON.stringify(state.menuTabs));
     },
     CLOSE_OTHER_TAB: (state, curpath) => {
       state.menuTabs = state.menuTabs.filter((item) => {
-        return (item.path === '/index') || (item.path === curpath);
+        return (item.fullPath === mainConst.ADM_INDEX) || (item.fullPath === curpath);
       });
-      setStore('menuTabs-' + state.system, JSON.stringify(state.menuTabs));
+      setStore('menuTabs', JSON.stringify(state.menuTabs));
     }
   },
   actions: {
+    initUserInfo: ({commit}, payload) => {
+      commit('INIT_USER_INFO', payload);
+    },
     ToggleSideBar: ({commit}) => {
       commit('TOGGLE_SIDEBAR');
     },
@@ -147,13 +163,26 @@ const app = {
         if (!n) {
           return false;
         }
-        if (router.path === '/iframe' && JSON.stringify(n.query) !== JSON.stringify(router.query)) {
-          return false;
-        } else if (n.path === router.path && JSON.stringify(n.query) !== JSON.stringify(router.query)) { // 动态带参数路由
-          commit('REMOVE_TAB', index);
-          return false;
+        if (router.path === '/iframe') {
+          console.log(JSON.stringify(n));
+
+          let r = {
+            title: router.query.name,
+            fullPath: router.fullPath,
+            params: {
+              prevLevelName: '首页',
+              title: router.query.name
+            }
+          };
+
+          console.log(JSON.stringify(r));
+          if (JSON.stringify(n) === JSON.stringify(r)) {
+            return true;
+          } else {
+            return false;
+          }
         } else {
-          return n.path === router.path;
+          return true;
         }
       });
       if (pathIndex === -1) {

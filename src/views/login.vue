@@ -48,6 +48,7 @@
 <script>
   import {login} from '../utils/interface';
   import Cookies from 'js-cookie';
+  import * as mainConst from '../utils/const';
   export default {
     name: 'login',
     data() {
@@ -112,12 +113,12 @@
             let response = await login({
               username: this.formValidate.username,
               password: this.formValidate.password
-            }, this.$store.state.app.env);
+            }, this.$store.state.app.baseUrl);
             if (response && response.header) {
               if (response.header.code === '0') {
                 this.$Message.success('登录成功!');
-                Cookies.set('sessionId', response.body);
-                this.$router.push('/index');
+                Cookies.set(mainConst.ADM_SESSION_ID, response.body);
+                this.$router.push(mainConst.ADM_INDEX);
               }
             }
           } else {
@@ -128,19 +129,6 @@
               });
           }
           this.login_loading = false;
-//          setTimeout(() => {
-//            this.login_loading = false;
-//            if (valid) {
-//              this.$Message.success('登录成功!');
-//              this.$router.push('/');
-//            } else {
-//              this.$Message.error('表单验证失败!');
-//              this.$Notice.warning({
-//                title: '登录提示',
-//                desc: '用户名/密码 随意输入...'
-//              });
-//            }
-//          }, 2000);
         });
       }
     },

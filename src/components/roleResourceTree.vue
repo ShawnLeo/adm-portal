@@ -66,7 +66,7 @@
         let res = await roleResources({
           id: this.id,
           roleResources: sel
-        }, this.$store.state.app.env);
+        }, this.$store.state.app.baseUrl);
         if (res && res.header) {
           if (res.header.code === '0') {
             this.$Message.success('保存成功!');

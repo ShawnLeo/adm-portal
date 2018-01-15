@@ -60,7 +60,7 @@
       }
     },
 //    beforeCreate() {
-//      getMenuList(this.$store.state.app.system, this.$store.state.app.env);
+//      getMenuList(this.$store.state.app.system, this.$store.state.app.baseUrl);
 //    },
     mounted() {
       let self = this;

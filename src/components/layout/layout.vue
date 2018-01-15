@@ -53,8 +53,13 @@
       <div class="main-container">
         <menu-tabs/>
         <container>
+          <!--<transition name="fade" mode="out-in">-->
+              <!--<router-view></router-view>-->
+          <!--</transition>-->
           <transition name="fade" mode="out-in">
-              <router-view></router-view>
+            <keep-alive>
+              <router-view v-if="$route.meta.keepAlive"></router-view>
+            </keep-alive>
           </transition>
           <!-- 路由/ -->
         </container>
@@ -90,15 +95,16 @@
   </div>
 </template>
 <script>
+  import * as mainConst from '../../utils/const';
   import THeader from './THeader.vue';
-
   import container from './container.vue';
   import menuTabs from './menuTabs.vue';
-  import menus from './menu.vue';
+  import menus from './menus.vue';
   import menuShrink from './menuShrink.vue';
   import Cookies from 'js-cookie';
   import {clearStore} from '../../utils/storage';
   import {updatePwd, getUserInfo} from '../../utils/interface';
+
   export default {
     name: 'full',
     components: {
@@ -140,9 +146,7 @@
         },
 //        是否展示左右滑动按钮 默认是false
         scrollBtnShow: false,
-        user: {
-          authId: ''
-        },
+        user: {},
         ruleValidate: {
           authPass: [
             {required: true, message: '密码不能为空', trigger: 'blur'}
@@ -177,7 +181,7 @@
         this.$refs[name].validate((valid) => {
           setTimeout(() => {
             if (valid) {
-              updatePwd(this.formValidate, this.$store.state.app.env).then(r => {
+              updatePwd(this.formValidate, this.$store.state.app.baseUrl).then(r => {
                 let resultCode = r.header.code;
                 if (resultCode === '0') {
                   this.$Message.success('修改成功！');
@@ -216,19 +220,28 @@
        *退出
        */
       logout() {
-        Cookies.remove('sessionId');
+        Cookies.remove(mainConst.ADM_SESSION_ID);
+        Cookies.remove(mainConst.ADM_USER_INFO);
         this.$router.push('/login');
         this.$Message.success('退出成功');
       },
       clearStorage() {
         clearStore();
-        window.location.reload();
+        this.$router.push(mainConst.ADM_INDEX);
         this.$Message.success('清除成功');
       },
       init: async function () {
-        let res = await getUserInfo(this.$store.state.app.env);
+        // 缓存用户信息
+        let userInfo = Cookies.get(mainConst.ADM_USER_INFO);
+        if (userInfo) {
+          this.user = JSON.parse(userInfo);
+          return;
+        }
+        let res = await getUserInfo(this.$store.state.app.baseUrl);
         if (res.header.code === '0') {
           this.user = res.body;
+          Cookies.set(mainConst.ADM_USER_INFO, JSON.stringify(res.body));
+          this.$store.dispatch('initUserInfo', this.user);
         }
       },
       themeChange(state) {

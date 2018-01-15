@@ -14,12 +14,12 @@
     <!-- 面包屑 -->
     <div style="float: left;line-height: 50px;">
       <Breadcrumb>
-        <Breadcrumb-item v-if="$route.meta.prevLevelName">
-          <!--<Icon type="ios-home-outline"></Icon>-->
-          {{$route.meta.prevLevelName}}
-        </Breadcrumb-item>
+        <!--<Breadcrumb-item v-if="$route.meta.prevLevelName">-->
+          <!--&lt;!&ndash;<Icon type="ios-home-outline"></Icon>&ndash;&gt;-->
+          <!--{{$route.query.prevLevelName}}-->
+        <!--</Breadcrumb-item>-->
         <Breadcrumb-item>
-          {{$route.meta.title}}
+          {{$route.query.name}}
         </Breadcrumb-item>
       </Breadcrumb>
     </div>
@@ -34,7 +34,7 @@
 
 <script>
   export default {
-    name: 'header',
+    name: 't-header',
     data () {
       return {screen: false};
     },

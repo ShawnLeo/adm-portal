@@ -233,7 +233,7 @@
               roleCode: this.roleAddForm.roleCode,
               name: this.roleAddForm.name,
               remarks: this.roleAddForm.remarks
-            }, this.$store.state.app.env);
+            }, this.$store.state.app.baseUrl);
             if (res && res.header) {
               if (res.header.code === '0') {
                 this.$Message.success('添加成功!');
@@ -256,7 +256,7 @@
             name: document.getElementById('editing-name-' + index).getElementsByTagName('input')[0].value,
             remarks: document.getElementById('editing-remarks-' + index).getElementsByTagName('input')[0].value,
             id: this.roles[index].id
-          }, this.$store.state.app.env);
+          }, this.$store.state.app.baseUrl);
           if (res && res.header) {
             if (res.header.code === '0') {
               this.$Message.success('编辑成功!');
@@ -270,7 +270,7 @@
         }
       },
       removeSubmit: async function (id) {
-        let res = await roleDelete({id: id}, this.$store.state.app.env);
+        let res = await roleDelete({id: id}, this.$store.state.app.baseUrl);
         if (res && res.header) {
           if (res.header.code === '0') {
             this.$Message.success('删除成功!');
@@ -304,7 +304,7 @@
           name: this.roleAddForm.name,
           page: this.pageNumber,
           size: this.pageSize
-        }, this.$store.state.app.env);
+        }, this.$store.state.app.baseUrl);
         var data = res.body.content;
         for (var i in data) {
           data[i].editing = false;
@@ -327,7 +327,7 @@
           name: this.formSearch.name,
           page: this.pageNumber,
           size: this.pageSize
-        }, this.$store.state.app.env);
+        }, this.$store.state.app.baseUrl);
         var data = res.body.content;
         for (var i in data) {
           data[i].editing = false;
