@@ -1,6 +1,7 @@
 import { roleMenuList } from './interface';
 import {getStore, setStore} from '../utils/storage';
-
+// import Cookies from 'js-cookie';
+import * as mainConst from '../utils/const';
 let menus = [];
 let iteratorInitMenuJsTree = (parent, children, deployUrl) => {
   if (!children) {
@@ -38,22 +39,24 @@ let iteratorInitMenuJsTree = (parent, children, deployUrl) => {
   }
 };
 
-let getMenuList = async (baseUrl, authId) => {
-  if (!getStore('menus-' + authId)) {
+let getMenuList = async (baseUrl) => {
+  // userInfo.authId
+  if (!getStore(mainConst.ADM_MENUS_AUTHID) && !getStore(mainConst.ADM_MENUS + getStore(mainConst.ADM_MENUS_AUTHID))) {
     await roleMenuList(baseUrl).then(r => {
       iteratorInitMenuJsTree(menus, r.body.children, '');
-      setStore('menus-' + authId, JSON.stringify(menus));
+      setStore(mainConst.ADM_MENUS + r.body.text, JSON.stringify(menus));
+      setStore(mainConst.ADM_MENUS_AUTHID, r.body.text);
     });
   }
 };
 
-let getMenusFromCookies = (authId, _menus) => {
-  if (!getStore('menus-' + authId)) {
+let getMenusFromCookies = (funMenus) => {
+  if (!getStore(mainConst.ADM_MENUS_AUTHID) && !getStore(mainConst.ADM_MENUS + getStore(mainConst.ADM_MENUS_AUTHID))) {
     setTimeout(() => {
-        getMenusFromCookies(authId, _menus);
+        getMenusFromCookies(funMenus);
     }, 100);
   } else {
-    _menus(JSON.parse(getStore('menus-' + authId)));
+    funMenus(JSON.parse(getStore(mainConst.ADM_MENUS + getStore(mainConst.ADM_MENUS_AUTHID))));
   }
 };
 

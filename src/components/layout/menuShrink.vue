@@ -59,12 +59,9 @@
         this.$router.push({path: a});
       }
     },
-//    beforeCreate() {
-//      getMenuList(this.$store.state.app.system, this.$store.state.app.baseUrl);
-//    },
     mounted() {
       let self = this;
-      getMenusFromCookies(this.$store.state.app.system, function (menu) {
+      getMenusFromCookies(function (menu) {
         self.menu = menu;
       });
     }

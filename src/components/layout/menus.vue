@@ -34,11 +34,11 @@
       }
     },
     beforeCreate() {
-      getMenuList(this.$store.state.app.baseUrl, this.$store.state.app.userInfo.authId);
+      getMenuList(this.$store.state.app.baseUrl);
     },
     mounted() {
       let self = this;
-      getMenusFromCookies(this.$store.state.app.userInfo.authId, function (menus) {
+      getMenusFromCookies(function (menus) {
         self.menus = menus;
       });
     },

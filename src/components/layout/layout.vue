@@ -229,6 +229,7 @@
         clearStore();
         this.$router.push(mainConst.ADM_INDEX);
         this.$Message.success('清除成功');
+        window.location.reload();
       },
       init: async function () {
         // 缓存用户信息
