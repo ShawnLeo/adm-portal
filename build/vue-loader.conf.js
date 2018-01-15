@@ -2,17 +2,7 @@ var utils = require('./utils')
 var config = require('../config')
 var isProduction = process.env.NODE_ENV === 'prod'
 
-var buildOptions;
-
-if(process.env.NODE_ENV  === 'test' ){
-  buildOptions = config.buildTest;
-}
-if(process.env.NODE_ENV  === 'pre' ){
-  buildOptions = config.buildPre;
-}
-if(process.env.NODE_ENV  === 'prod' ){
-  buildOptions = config.buildProd;
-}
+var buildOptions = process.env.NODE_ENV  === 'dev' ? config.dev : config.build;
 
 module.exports = {
   loaders: utils.cssLoaders({
