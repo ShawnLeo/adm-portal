@@ -57,9 +57,7 @@
               <!--<router-view></router-view>-->
           <!--</transition>-->
           <transition name="fade" mode="out-in">
-            <keep-alive>
-              <router-view v-if="$route.meta.keepAlive"></router-view>
-            </keep-alive>
+              <router-view></router-view>
           </transition>
           <!-- 路由/ -->
         </container>
@@ -106,7 +104,7 @@
   import {updatePwd, getUserInfo} from '../../utils/interface';
 
   export default {
-    name: 'full',
+    name: 'layout',
     components: {
       THeader,
 //      NavBar,

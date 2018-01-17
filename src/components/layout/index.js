@@ -5,8 +5,5 @@
  *  *注：除portal外的系统开发环境使用layout，打包部署测试后使用full
  */
 import layout from './layout.vue';
-import full from './full.vue';
 
-let layouts = {layout, full};
-
-export default layouts;
+export default layout;

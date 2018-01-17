@@ -33,7 +33,7 @@ const app = {
     menuTabarWidth: null,
     menuFirsClick: true,
     system: '基础平台',
-    // env: process.env.NODE_ENV,
+    menuType: 3, // 菜单等级，2-显示某系统菜单  3-显示平台及菜单
     baseUrl: getBaseUrl(process.env.NODE_ENV)
   },
   mutations: {
@@ -164,7 +164,7 @@ const app = {
           return false;
         }
         if (router.path === '/iframe') {
-          console.log(JSON.stringify(n));
+          // console.log(JSON.stringify(n));
 
           let r = {
             title: router.query.name,
@@ -175,7 +175,7 @@ const app = {
             }
           };
 
-          console.log(JSON.stringify(r));
+          // console.log(JSON.stringify(r));
           if (JSON.stringify(n) === JSON.stringify(r)) {
             return true;
           } else {
