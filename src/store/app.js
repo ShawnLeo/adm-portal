@@ -1,5 +1,5 @@
 // import Cookies from 'js-cookie';
-import {getBaseUrl} from '../utils/env';
+import {getBaseUrl, getLoginUrl} from '../utils/env';
 import * as mainConst from '../utils/const';
 import {getStore, setStore} from '../utils/storage';
 import iView from 'iview';
@@ -32,9 +32,10 @@ const app = {
     }],
     menuTabarWidth: null,
     menuFirsClick: true,
-    system: '基础平台',
+    system: 'all',
     menuType: 3, // 菜单等级，2-显示某系统菜单  3-显示平台及菜单
-    baseUrl: getBaseUrl(process.env.NODE_ENV)
+    baseUrl: getBaseUrl(process.env.NODE_ENV), // 接口路径
+    loginUrl: getLoginUrl(process.env.NODE_ENV) // 登陆页面
   },
   mutations: {
     /**

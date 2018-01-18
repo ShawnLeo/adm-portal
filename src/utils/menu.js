@@ -39,10 +39,12 @@ let iteratorInitMenuJsTree = (parent, children, deployUrl) => {
   }
 };
 
-let getMenuList = async (baseUrl) => {
+let getMenuList = async (baseUrl, system) => {
   // userInfo.authId
   if (!getStore(mainConst.ADM_MENUS_AUTHID) && !getStore(mainConst.ADM_MENUS + getStore(mainConst.ADM_MENUS_AUTHID))) {
-    await roleMenuList(baseUrl).then(r => {
+    await roleMenuList(baseUrl, {
+      system: system
+    }).then(r => {
       iteratorInitMenuJsTree(menus, r.body.children, '');
       setStore(mainConst.ADM_MENUS + r.body.text, JSON.stringify(menus));
       setStore(mainConst.ADM_MENUS_AUTHID, r.body.text);

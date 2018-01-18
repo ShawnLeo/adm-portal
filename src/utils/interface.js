@@ -63,8 +63,9 @@ export const menuList = (data, baseUrl) => fetch(PLATFORM_SYS + '/resource/menu/
 }, 'POST');
 
 // 角色菜单数据
-export const roleMenuList = (baseUrl) => fetch(PLATFORM_SYS + '/role/menus', {
-  baseUrl: baseUrl
+export const roleMenuList = (baseUrl, data) => fetch(PLATFORM_SYS + '/role/menus', {
+  baseUrl: baseUrl,
+  reqParams: data
 }, 'GET');
 
 export const userList = (data, body, baseUrl) => fetch(PLATFORM_SYS + '/user/page', {

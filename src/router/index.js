@@ -90,6 +90,7 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   // LoadingBar.start();
+  Cookies.set(mainConst.ADM_REFER, from.fullPath);
   let sessionId = Cookies.get(mainConst.ADM_SESSION_ID);
   if (sessionId) { // 如果是登陆状态
     store.dispatch('addTab', to);

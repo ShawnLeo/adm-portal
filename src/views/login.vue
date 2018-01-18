@@ -99,10 +99,9 @@
       };
     },
     beforeCreate: function () {
-//      document.getElementsByTagName('body')[0].className = 'login_body';
-//      // 计算屏幕高度宽度 让其自适应
-//      document.getElementsByTagName('body')[0].style.width = window.innerWidth + 'px';
-//      document.getElementsByTagName('body')[0].style.height = window.innerHeight + 'px';
+      if (window !== top) {
+        top.location.href = this.$store.state.app.loginUrl;
+      }
     },
     methods: {
       handleSubmit(name) { // login
@@ -118,7 +117,12 @@
               if (response.header.code === '0') {
                 this.$Message.success('登录成功!');
                 Cookies.set(mainConst.ADM_SESSION_ID, response.body);
-                this.$router.push(mainConst.ADM_INDEX);
+                let refer = Cookies.get(mainConst.ADM_REFER);
+                if (refer && refer !== '/') {
+                  this.$router.push(Cookies.get(mainConst.ADM_REFER));
+                } else {
+                  this.$router.push(mainConst.ADM_INDEX);
+                }
               }
             }
           } else {

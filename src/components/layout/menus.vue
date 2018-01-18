@@ -34,7 +34,7 @@
       }
     },
     beforeCreate() {
-      getMenuList(this.$store.state.app.baseUrl);
+      getMenuList(this.$store.state.app.baseUrl, this.$store.state.app.system);
     },
     mounted() {
       let self = this;

@@ -17,4 +17,18 @@ const getBaseUrl = function (env) {
   }
   return baseUrl;
 };
-export {getBaseUrl};
+
+const getLoginUrl = function (env) {
+  let loginUrl = 'http://localhost:8080#/login';
+  if (env === 'dev') { // 开发环境
+    loginUrl = 'http://10.133.255.201:5001/pc/portal/index.html#/login';
+  } else if (env === 'test') { // 测试环境
+    loginUrl = 'https://static-test.meimeitech.com/pc/portal/index.html#/login';
+  } else if (env === 'pre') { // 预生产环境
+    loginUrl = 'https://static-pre.meimeitech.com/pc/portal/index.html#/login';
+  } else if (env === 'prod') { // 生产环境
+    loginUrl = 'https://static.meimeitech.com/pc/portal/index.html#/login';
+  }
+  return loginUrl;
+};
+export {getBaseUrl, getLoginUrl};
